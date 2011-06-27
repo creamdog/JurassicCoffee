@@ -4,11 +4,37 @@ h2. CoffeeScript Compiler Implementation in .NET
 
 var compiler = new JurassicCoffee.Core.Compiler();
 
-//will compile test.coffee into test.js
+h3. Compile test.coffee into test.js
 compiler.Compile("test.coffee");
 
-//compiles coffeescript string into a javascript string
+h3. Compiles coffeescript string into a javascript string
 var javascriptString = compiler.CompileString("helloworld -> 'hello world'")
 
-//inside a .coffee file : includes desired .coffee file
+h3. Inside a .coffee file : includes desired .coffee file
 @require file.coffee
+
+h3. Example custom pre/post compilation
+static void Main(string[] args)
+{
+    var compiler = new Core.Compiler(
+		precompilationSteps: new Func<string, string, string>[] { AddCompilationDate }, 
+		postcompilationSteps: new Func<string, string, string>[] { AddSourceFileName, RemoveNewLines }
+	);
+
+    compiler.Compile("test.coffee");
+}
+
+private static string AddCompilationDate(string file, string source)
+{
+    return string.Format("compiledate = '{0}'{1}{2}", DateTime.Now.ToShortDateString(), Environment.NewLine, source);
+}
+
+private static string AddSourceFileName(string file, string source)
+{
+    return string.Format("/*source file: {0}*/{1}{2}", file, source, Environment.NewLine);
+}
+
+private static string RemoveNewLines(string file, string source)
+{
+    return source.Replace(Environment.NewLine, " ").Replace('\n',' ');
+}
