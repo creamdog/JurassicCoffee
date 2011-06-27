@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Jurassic">
-      <HintPath>..\Dependencies\Jurassic\Jurassic.dll</HintPath>
+      <HintPath>..\..\Dependencies\Jurassic\Jurassic.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
