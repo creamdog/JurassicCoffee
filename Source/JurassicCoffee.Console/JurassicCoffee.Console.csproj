@@ -53,6 +53,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="include2.coffee">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="include.coffee">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="test.coffee">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

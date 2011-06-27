@@ -6,6 +6,7 @@
         {
 
            new Core.Compiler().Compile("test.coffee");
+
         }
     }
 }

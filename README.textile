@@ -10,4 +10,5 @@ compiler.Compile("test.coffee");
 //compiles coffeescript string into a javascript string
 var javascriptString = compiler.CompileString("helloworld -> 'hello world'")
 
-features: @require file.coffee
+//inside a .coffee file : includes desired .coffee file
+@require file.coffee
