@@ -8,6 +8,11 @@ namespace JurassicCoffee.Core
 {
     public class Precompiler
     {
+        public static string InsertRequiredFiles(string file, string coffeeScript)
+        {
+            return InsertRequiredFiles(coffeeScript, new List<string>() { new FileInfo(file).FullName.ToLower() });
+        }
+
         public static string InsertRequiredFiles(string coffeeScript, List<string> includedRequiredFiles)
         {
             var requires = Regex.Matches(coffeeScript, "^@require\\s+(?<requiredFile>.+)$", RegexOptions.Multiline | RegexOptions.IgnoreCase);

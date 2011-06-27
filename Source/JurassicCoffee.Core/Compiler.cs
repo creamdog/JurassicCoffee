@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Jurassic;
+using System.Linq;
 
 namespace JurassicCoffee.Core
 {
@@ -11,7 +12,20 @@ namespace JurassicCoffee.Core
     {
         [ThreadStatic]
         private static ScriptEngine _engine;
-        private static object _o = new object();
+
+        private List<Func<string, string, string>> PrecompilationSteps { get; set; }
+        private List<Func<string, string, string>> PostcompilationSteps { get; set; }
+
+        public Compiler(IEnumerable<Func<string, string, string>> precompilationSteps = null, IEnumerable<Func<string, string, string>> postcompilationSteps = null)
+        {
+            PrecompilationSteps = new List<Func<string, string, string>>();
+            PostcompilationSteps = new List<Func<string, string, string>>();
+
+            PrecompilationSteps.Add(Precompiler.InsertRequiredFiles);
+
+            PrecompilationSteps.AddRange(precompilationSteps ?? new List<Func<string, string, string>>());
+            PostcompilationSteps.AddRange(postcompilationSteps ?? new List<Func<string, string, string>>());
+        }
 
         private static ScriptEngine Engine
         {
@@ -60,11 +74,14 @@ namespace JurassicCoffee.Core
 
                 var coffeeScript = File.ReadAllText(coffeeScriptFile);
 
-                coffeeScript = Precompiler.InsertRequiredFiles(coffeeScript, includedRequiredFiles);
-                
+                coffeeScript = PrecompilationSteps.Aggregate(coffeeScript, (current, step) => step(coffeeScriptFileInfo.FullName, current));
+
                 var javascript = CompileString(coffeeScript);
 
                 var javaScriptFile = Regex.Replace(coffeeScriptFileInfo.FullName, coffeeScriptFileInfo.Extension + "$", ".js", RegexOptions.IgnoreCase);
+
+                javascript = PostcompilationSteps.Aggregate(javascript, (current, step) => step(javaScriptFile, current));
+                
                 File.WriteAllText(javaScriptFile, javascript);
 
                 return new FileInfo(javaScriptFile);
