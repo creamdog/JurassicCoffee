@@ -1,6 +1,6 @@
 h1. JurassicCoffee
 
-h2. CoffeScript Compiler Implementation in .NET
+h2. CoffeeScript Compiler Implementation in .NET
 
 var compiler = new JurassicCoffee.Core.Compiler();
 
