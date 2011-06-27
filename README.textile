@@ -2,6 +2,11 @@ h1. JurassicCoffee
 
 h2. CoffeeScript Compiler Implementation in .NET
 
+Compiles .coffee files with coffee-script.js running in Jurassic
+
+coffee-script.js : http://jashkenas.github.com/coffee-script/
+Jurassic : http://jurassic.codeplex.com/
+
 var compiler = new JurassicCoffee.Core.Compiler();
 
 //Compile test.coffee into test.js
