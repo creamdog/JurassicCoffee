@@ -14,7 +14,7 @@ var javascriptString = compiler.CompileString("helloworld -> 'hello world'")
 @require file.coffee
 
 //Example custom pre/post compilation
-static void Main(string[] args)
+bc.. static void Main(string[] args)
 {
     var compiler = new Core.Compiler(
 		precompilationSteps: new Func<string, string, string>[] { AddCompilationDate }, 
