@@ -1,14 +1,4 @@
-﻿helloworld -> 'hello world'
+﻿@require ./include.coffee
 
-@require ./include.coffee
+helloworld('hello!')
 
-
-apa = kjfhdskjfhdskfsj
-
-lkfjsdlkfjs -> fkjdskjshf
-
-
-@require ./include.coffee
-
-
-kjfdsjk = fdsjhg

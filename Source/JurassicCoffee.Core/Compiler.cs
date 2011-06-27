@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -46,10 +47,10 @@ namespace JurassicCoffee.Core
 
         public FileInfo Compile(string coffeeScriptFile)
         {
-            return Compile(coffeeScriptFile, new string[0]);
+            return Compile(coffeeScriptFile, new List<string>());
         }
 
-        internal FileInfo Compile(string coffeeScriptFile, string[] compiledRequiredFiles)
+        internal FileInfo Compile(string coffeeScriptFile, List<string> includedRequiredFiles)
         {
             try
             {
@@ -59,17 +60,14 @@ namespace JurassicCoffee.Core
 
                 var coffeeScript = File.ReadAllText(coffeeScriptFile);
 
-                coffeeScript = Precompiler.CompileRequiredFiles(this, coffeeScript, compiledRequiredFiles);
+                coffeeScript = Precompiler.InsertRequiredFiles(coffeeScript, includedRequiredFiles);
                 
                 var javascript = CompileString(coffeeScript);
 
                 var javaScriptFile = Regex.Replace(coffeeScriptFileInfo.FullName, coffeeScriptFileInfo.Extension + "$", ".js", RegexOptions.IgnoreCase);
                 File.WriteAllText(javaScriptFile, javascript);
 
-                Precompiler.InsertRequiredFiles(javaScriptFile);
-
                 return new FileInfo(javaScriptFile);
-
             } catch(Exception ex) {
                 throw new Exception(coffeeScriptFile, ex);
             }
