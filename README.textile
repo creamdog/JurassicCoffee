@@ -1,0 +1,11 @@
+h1. JurassicCoffee
+
+h2. CoffeScript Compiler Implementation in .NET
+
+var compiler = new JurassicCoffee.Core.Compiler();
+
+//will compile test.coffee into test.js
+compiler.Compile("test.coffee");
+
+//compiles coffeescript string into a javascript string
+var javascriptString = compiler.CompileString("helloworld -> 'hello world'")
