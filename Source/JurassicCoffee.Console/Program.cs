@@ -1,4 +1,6 @@
 ﻿using System;
+using Jurassic;
+using JurassicCoffee.Core;
 
 namespace JurassicCoffee.Console
 {
@@ -6,7 +8,6 @@ namespace JurassicCoffee.Console
     {
         static void Main(string[] args)
         {
-
             var compiler = new Core.Compiler();
             compiler.PrecompilationActions.Add(AddCompilationDate);
             compiler.PostcompilationActions.Add(Minify);
@@ -15,19 +16,19 @@ namespace JurassicCoffee.Console
 
         }
 
-        private static string Minify(string source)
+        private static string Minify(CompilerContext contex, string source)
         {
             source += "/* I should be minified to decrease bandwidth usage */";
 
             return source;
         }
 
-        private static string AddCompilationDate(string source)
+        private static string AddCompilationDate(CompilerContext contex, string source)
         {
             return string.Format("compiledate = '{0}'{1}{2}", DateTime.Now.ToShortDateString(), Environment.NewLine, source);
         }
 
-        private static string AddMinToFileName(string filePath)
+        private static string AddMinToFileName(CompilerContext contex, string filePath)
         {
             return filePath.Replace(".js", ".min.js");
         }

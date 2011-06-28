@@ -2,18 +2,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace JurassicCoffee.Core
 {
     public class Precompiler
     {
-        public static string InsertRequiredFiles(string coffeeScript)
+        public static string InsertRequiredFiles(CompilerContext context, string coffeeScript)
         {
-            return InsertRequiredFiles(coffeeScript, new List<string>());
+            return InsertRequiredFiles(context, coffeeScript, new List<string>());
         }
 
-        public static string InsertRequiredFiles(string script, List<string> includedRequiredFiles)
+        public static string ReplaceJurassicCoffeeSplot(CompilerContext context, string coffeeScript)
+        {
+            return coffeeScript.Replace("#JurassicCoffeeSplot#" + context.Id.ToString(), "`");
+        }
+
+        public static string InsertRequiredFiles(CompilerContext context, string script, List<string> includedRequiredFiles)
         {
             var requires = Regex.Matches(script, "#= require\\s+(?<requiredFile>.+)$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
@@ -30,12 +36,15 @@ namespace JurassicCoffee.Core
 
                 var key = string.Empty;
 
+                if (!requiredScriptFile.Exists)
+                    requiredScriptFile = new FileInfo(Path.Combine(context.WorkingDirectory, path));
+
                 if (!includedRequiredFiles.Any(f => f == requiredScriptFile.FullName.ToLower()))
                 {
                     includedRequiredFiles.Add(requiredScriptFile.FullName.ToLower());
                     var requiredScript = File.ReadAllText(requiredScriptFile.FullName);
-                    requiredScript = InsertRequiredFiles(requiredScript, includedRequiredFiles);
-                    key = string.Format("{0}", requiredScript);
+                    requiredScript = InsertRequiredFiles(context, requiredScript, includedRequiredFiles);
+                    key = string.Format("{0}", requiredScript.Replace("`","#JurassicCoffeeSplot#" + context.Id.ToString()));
                 }
 
                 var matchLength = isInline ? require.Length-2 : require.Length;
