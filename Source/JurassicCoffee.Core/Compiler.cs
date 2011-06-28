@@ -13,18 +13,39 @@ namespace JurassicCoffee.Core
         [ThreadStatic]
         private static ScriptEngine _engine;
 
-        private List<Func<string, string, string>> PrecompilationSteps { get; set; }
-        private List<Func<string, string, string>> PostcompilationSteps { get; set; }
-
-        public Compiler(IEnumerable<Func<string, string, string>> precompilationSteps = null, IEnumerable<Func<string, string, string>> postcompilationSteps = null)
+        private readonly List<Func<string, string>> _preScriptLoadActions;
+        public List<Func<string, string>> PreScriptLoadActions
         {
-            PrecompilationSteps = new List<Func<string, string, string>>();
-            PostcompilationSteps = new List<Func<string, string, string>>();
+            get { return _preScriptLoadActions; }
+        }
 
-            PrecompilationSteps.Add(Precompiler.InsertRequiredFiles);
+        private readonly List<Func<string, string>> _preScriptOutputActions;
+        public List<Func<string, string>> PreScriptOutputActions
+        {
+            get { return _preScriptOutputActions; }
+        }
 
-            PrecompilationSteps.AddRange(precompilationSteps ?? new List<Func<string, string, string>>());
-            PostcompilationSteps.AddRange(postcompilationSteps ?? new List<Func<string, string, string>>());
+        private readonly List<Func<string, string>> _precompilationActions;
+        public List<Func<string, string>> PrecompilationActions
+        {
+            get { return _precompilationActions; }
+        }
+
+        private readonly List<Func<string, string>> _postcompilationActions;
+        public List<Func<string, string>> PostcompilationActions
+        {
+            get { return _postcompilationActions; }
+        }
+
+
+
+        public Compiler()
+        {
+            _precompilationActions = new List<Func<string, string>>();
+            _postcompilationActions = new List<Func<string, string>>();
+            _preScriptLoadActions = new List<Func<string, string>>();
+            _preScriptOutputActions = new List<Func<string, string>>();
+            PrecompilationActions.Add(Precompiler.InsertRequiredFiles);
         }
 
         private static ScriptEngine Engine
@@ -64,30 +85,38 @@ namespace JurassicCoffee.Core
             return Compile(coffeeScriptFile, new List<string>());
         }
 
-        internal FileInfo Compile(string coffeeScriptFile, List<string> includedRequiredFiles)
+        internal FileInfo Compile(string coffeeScriptFilePath, List<string> includedRequiredFiles)
         {
-            try
+            var inputFilePath = _preScriptLoadActions.Aggregate(coffeeScriptFilePath, (current, action) => action(current));
+
+            var coffeeScriptFileInfo = new FileInfo(inputFilePath);
+
+            var javaScriptFilePath = Regex.Replace(coffeeScriptFileInfo.FullName, coffeeScriptFileInfo.Extension + "$", ".js", RegexOptions.IgnoreCase);
+
+            javaScriptFilePath = _preScriptOutputActions.Aggregate(javaScriptFilePath, (current, action) => action(current));
+
+            using (var input = new StreamReader(File.OpenRead(coffeeScriptFileInfo.FullName)))
             {
-                var coffeeScriptFileInfo = new FileInfo(coffeeScriptFile);
-
-                ValidateCoffeeScriptFile(coffeeScriptFileInfo);
-
-                var coffeeScript = File.ReadAllText(coffeeScriptFile);
-
-                coffeeScript = PrecompilationSteps.Aggregate(coffeeScript, (current, step) => step(coffeeScriptFileInfo.FullName, current));
-
-                var javascript = CompileString(coffeeScript);
-
-                var javaScriptFile = Regex.Replace(coffeeScriptFileInfo.FullName, coffeeScriptFileInfo.Extension + "$", ".js", RegexOptions.IgnoreCase);
-
-                javascript = PostcompilationSteps.Aggregate(javascript, (current, step) => step(javaScriptFile, current));
-                
-                File.WriteAllText(javaScriptFile, javascript);
-
-                return new FileInfo(javaScriptFile);
-            } catch(Exception ex) {
-                throw new Exception(coffeeScriptFile, ex);
+                using (var output = new StreamWriter(File.Open(javaScriptFilePath, FileMode.Create)))
+                {
+                    Compile(input, output);
+                }
             }
+
+            return new FileInfo(javaScriptFilePath);
+        }
+
+        public void Compile(StreamReader input, StreamWriter output)
+        {
+            var coffeeScript = input.ReadToEnd();
+
+            coffeeScript = _precompilationActions.Aggregate(coffeeScript, (current, action) => action(current));
+
+            var javascript = CompileString(coffeeScript);
+
+            javascript = _postcompilationActions.Aggregate(javascript, (current, action) => action(current));
+
+            output.Write(javascript);
         }
 
         public string CompileString(string coffeeScript)
@@ -95,16 +124,6 @@ namespace JurassicCoffee.Core
             Engine.SetGlobalValue("Source", coffeeScript);
             var javascript = Engine.Evaluate<string>("CoffeeScript.compile(Source, {bare: true})");
             return javascript;
-        }
-
-
-        private static void ValidateCoffeeScriptFile(FileSystemInfo coffeeScriptFileInfo)
-        {
-            if (!coffeeScriptFileInfo.Exists)
-                throw new FileNotFoundException(coffeeScriptFileInfo.FullName);
-
-            if (coffeeScriptFileInfo.Extension != ".coffee")
-                throw new IOException(string.Format("file does not end with .coffee : {0}", coffeeScriptFileInfo.FullName));
         }
     }
 }

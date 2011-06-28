@@ -8,9 +8,9 @@ namespace JurassicCoffee.Core
 {
     public class Precompiler
     {
-        public static string InsertRequiredFiles(string file, string coffeeScript)
+        public static string InsertRequiredFiles(string coffeeScript)
         {
-            return InsertRequiredFiles(coffeeScript, new List<string>() { new FileInfo(file).FullName.ToLower() });
+            return InsertRequiredFiles(coffeeScript, new List<string>());
         }
 
         public static string InsertRequiredFiles(string coffeeScript, List<string> includedRequiredFiles)

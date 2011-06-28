@@ -7,26 +7,29 @@ namespace JurassicCoffee.Console
         static void Main(string[] args)
         {
 
-            var compiler = new Core.Compiler(precompilationSteps: new Func<string, string, string>[] { AddCompilationDate }, postcompilationSteps: new Func<string, string, string>[] { AddSourceFileName, RemoveNewLines });
-
-            
+            var compiler = new Core.Compiler();
+            compiler.PrecompilationActions.Add(AddCompilationDate);
+            compiler.PostcompilationActions.Add(Minify);
+            compiler.PreScriptOutputActions.Add(AddMinToFileName);
             compiler.Compile("test.coffee");
 
         }
 
-        private static string AddCompilationDate(string file, string source)
+        private static string Minify(string source)
+        {
+            source += "/* I should be minified to decrease bandwidth usage */";
+
+            return source;
+        }
+
+        private static string AddCompilationDate(string source)
         {
             return string.Format("compiledate = '{0}'{1}{2}", DateTime.Now.ToShortDateString(), Environment.NewLine, source);
         }
 
-        private static string AddSourceFileName(string file, string source)
+        private static string AddMinToFileName(string filePath)
         {
-            return string.Format("/*source file: {0}*/{1}{2}", file, source, Environment.NewLine);
-        }
-
-        private static string RemoveNewLines(string file, string source)
-        {
-            return source.Replace(Environment.NewLine, " ").Replace('\n',' ');
+            return filePath.Replace(".js", ".min.js");
         }
     }
 }
