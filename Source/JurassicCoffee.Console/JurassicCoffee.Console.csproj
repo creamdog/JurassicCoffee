@@ -69,6 +69,11 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir Merged
+
+"$(SolutionDir)Dependencies\ILMerge\ILMerge.exe" /v4 /target:winexe /out:"$(TargetDir)Merged\JurassicCoffee.exe" "$(TargetDir)JurassicCoffee.Console.exe" "$(TargetDir)Jurassic.dll" "$(TargetDir)JurassicCoffee.Core.dll"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
