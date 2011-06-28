@@ -1,0 +1,143 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="livetemplates.csharp.usevar">True</setting>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="File`0" priority="0" />
+      <Item value="public" priority="3" />
+      <Item value="static" priority="3" />
+      <Item value="string" priority="26" />
+      <Item value="requiredCoffeeScriptFile" priority="0" />
+      <Item value="var" priority="1" />
+      <Item value="requiredCoffeeScript" priority="1" />
+      <Item value="newCompiledRequiredFiles" priority="0" />
+      <Item value="compiledRequiredFiles" priority="0" />
+      <Item value="List" priority="1" />
+      <Item value="new" priority="13" />
+      <Item value="List&lt;string&gt;" priority="1" />
+      <Item value="f" priority="0" />
+      <Item value="private" priority="3" />
+      <Item value="IEnumerable" priority="0" />
+      <Item value="Func" priority="2" />
+      <Item value="precompilationSteps" priority="1" />
+      <Item value="postcompilationSteps" priority="2" />
+      <Item value="_postcompilationSteps" priority="0" />
+      <Item value="using" priority="0" />
+      <Item value="Linq" priority="0" />
+      <Item value="foreach" priority="0" />
+      <Item value="step" priority="0" />
+      <Item value="coffeeScript" priority="1" />
+      <Item value="this" priority="0" />
+      <Item value="compiler" priority="0" />
+      <Item value="delegate" priority="1" />
+      <Item value="return" priority="5" />
+      <Item value="a" priority="2" />
+      <Item value="args" priority="0" />
+      <Item value="Delegate`0" priority="1" />
+      <Item value="k" priority="0" />
+      <Item value="source" priority="6" />
+      <Item value="void" priority="0" />
+      <Item value="file" priority="3" />
+      <Item value="Precompiler`0" priority="0" />
+      <Item value="null" priority="0" />
+      <Item value="List&lt;Func&lt;string,string,string&gt;&gt;" priority="0" />
+      <Item value="Core" priority="0" />
+      <Item value="Compiler`0" priority="0" />
+      <Item value="Environment`0" priority="3" />
+      <Item value="DateTime`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.File">
+      <Item value="ReadAllText`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.List`1">
+      <Item value="ToArray`0" priority="0" />
+      <Item value="AddRange`0" priority="1" />
+      <Item value="Add`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.String">
+      <Item value="ToLower`0" priority="4" />
+      <Item value="Replace`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.IO.FileInfo">
+      <Item value="FullName" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.IEnumerable`1">
+      <Item value="Select`2" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.String">
+      <Item value="Empty" priority="1" />
+      <Item value="Format`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@JurassicCoffee.Core.Precompiler">
+      <Item value="InsertRequiredFiles`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Environment">
+      <Item value="NewLine" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.DateTime">
+      <Item value="Now" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.DateTime">
+      <Item value="ToShortDateString`0" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:test.coffee" caret="47" fromTop="1" />
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:include2.coffee" caret="15" fromTop="0" />
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:include.coffee" caret="2" fromTop="0" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Precompiler.cs" caret="407" fromTop="8" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Compiler.cs" caret="0" fromTop="0" />
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:Program.cs" caret="80" fromTop="5" />
+      <File id="84AB40D8-0C97-481C-90D1-B987D03021A5/f:README.textile/l:C!?Users?creamdog?Documents?My Dropbox?Projects?JurassicCoffee?README.textile" caret="129" fromTop="3" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Precompiler.cs" caret="1744" fromTop="7" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Compiler.cs" caret="3167" fromTop="25" />
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:test.coffee" caret="47" fromTop="1" />
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:include.coffee" caret="89" fromTop="3" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Precompiler.cs" caret="1357" fromTop="24" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Precompiler.cs" caret="1357" fromTop="23" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Compiler.cs" caret="2166" fromTop="5" />
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:include2.coffee" caret="15" fromTop="0" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Precompiler.cs" caret="887" fromTop="13" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Precompiler.cs" caret="1247" fromTop="20" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Compiler.cs" caret="168" fromTop="5" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Compiler.cs" caret="2749" fromTop="28" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Precompiler.cs" caret="407" fromTop="8" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Compiler.cs" caret="1108" fromTop="27" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Compiler.cs" caret="2540" fromTop="18" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Compiler.cs" caret="308" fromTop="12" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Compiler.cs" caret="890" fromTop="24" />
+      <File id="4925B025-1C24-4349-8616-9EB8349F3334/f:Compiler.cs" caret="651" fromTop="17" />
+      <File id="84AB40D8-0C97-481C-90D1-B987D03021A5/f:README.textile/l:C!?Users?creamdog?Documents?My Dropbox?Projects?JurassicCoffee?README.textile" caret="589" fromTop="20" />
+      <File id="84AB40D8-0C97-481C-90D1-B987D03021A5/f:README.textile/l:C!?Users?creamdog?Documents?My Dropbox?Projects?JurassicCoffee?README.textile" caret="589" fromTop="21" />
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:Program.cs" caret="619" fromTop="17" />
+      <File id="84AB40D8-0C97-481C-90D1-B987D03021A5/f:README.textile/l:C!?Users?creamdog?Documents?My Dropbox?Projects?JurassicCoffee?README.textile" caret="589" fromTop="9" />
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:Program.cs" caret="1024" fromTop="27" />
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:Program.cs" caret="810" fromTop="22" />
+      <File id="BE910B9D-AB99-43D5-A892-68FD55937C02/f:Program.cs" caret="351" fromTop="8" />
+      <File id="84AB40D8-0C97-481C-90D1-B987D03021A5/f:README.textile/l:C!?Users?creamdog?Documents?My Dropbox?Projects?JurassicCoffee?README.textile" caret="589" fromTop="32" />
+      <File id="84AB40D8-0C97-481C-90D1-B987D03021A5/f:README.textile/l:C!?Users?creamdog?Documents?My Dropbox?Projects?JurassicCoffee?README.textile" caret="306" fromTop="5" />
+      <File id="84AB40D8-0C97-481C-90D1-B987D03021A5/f:README.textile/l:C!?Users?creamdog?Documents?My Dropbox?Projects?JurassicCoffee?README.textile" caret="305" fromTop="5" />
+      <File id="84AB40D8-0C97-481C-90D1-B987D03021A5/f:README.textile/l:C!?Users?creamdog?Documents?My Dropbox?Projects?JurassicCoffee?README.textile" caret="589" fromTop="12" />
+      <File id="84AB40D8-0C97-481C-90D1-B987D03021A5/f:README.textile/l:C!?Users?creamdog?Documents?My Dropbox?Projects?JurassicCoffee?README.textile" caret="129" fromTop="3" />
+    </RecentEdits>
+  </RecentFiles>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerNUnit>
+    <NUnitInstallDir>C:\Program Files (x86)\NUnit 2.5.2\bin\net-2.0\</NUnitInstallDir>
+    <UseAddins>Never</UseAddins>
+  </UnitTestRunnerNUnit>
+</Configuration>

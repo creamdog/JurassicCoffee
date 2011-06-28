@@ -16,4 +16,7 @@ compiler.Compile("test.coffee");
 var javascriptString = compiler.CompileString("helloworld -> 'hello world'")
 
 //Inside a .coffee file : includes desired .coffee file
-@require file.coffee
+#= require file.coffee
+
+//Inside a .coffee file : embeds desired .js file
+`#= require jquery.example.js`

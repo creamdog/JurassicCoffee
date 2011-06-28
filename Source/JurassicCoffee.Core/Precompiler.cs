@@ -13,31 +13,39 @@ namespace JurassicCoffee.Core
             return InsertRequiredFiles(coffeeScript, new List<string>());
         }
 
-        public static string InsertRequiredFiles(string coffeeScript, List<string> includedRequiredFiles)
+        public static string InsertRequiredFiles(string script, List<string> includedRequiredFiles)
         {
-            var requires = Regex.Matches(coffeeScript, "^@require\\s+(?<requiredFile>.+)$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+            var requires = Regex.Matches(script, "#= require\\s+(?<requiredFile>.+)$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
             var offset = 0;
             foreach (Match require in requires)
             {
-                var requiredCoffeeScriptFile = new FileInfo(require.Groups["requiredFile"].Value.Trim());
+                var path = require.Groups["requiredFile"].Value.Trim();
+
+                var isInline = path.EndsWith("`");
+
+                path = isInline ? path.Substring(0, path.Length - 1) : path;
+
+                var requiredScriptFile = new FileInfo(path);
 
                 var key = string.Empty;
 
-                if (!includedRequiredFiles.Any(f => f == requiredCoffeeScriptFile.FullName.ToLower()))
+                if (!includedRequiredFiles.Any(f => f == requiredScriptFile.FullName.ToLower()))
                 {
-                    includedRequiredFiles.Add(requiredCoffeeScriptFile.FullName.ToLower());
-                    var requiredCoffeeScript = File.ReadAllText(requiredCoffeeScriptFile.FullName);
-                    requiredCoffeeScript = InsertRequiredFiles(requiredCoffeeScript, includedRequiredFiles);
-                    key = string.Format("{0}", requiredCoffeeScript);
+                    includedRequiredFiles.Add(requiredScriptFile.FullName.ToLower());
+                    var requiredScript = File.ReadAllText(requiredScriptFile.FullName);
+                    requiredScript = InsertRequiredFiles(requiredScript, includedRequiredFiles);
+                    key = string.Format("{0}", requiredScript);
                 }
 
-                coffeeScript = coffeeScript.Remove(require.Index + offset, require.Length);
-                coffeeScript = coffeeScript.Insert(require.Index + offset, key);
-                offset += key.Length - require.Length;
+                var matchLength = isInline ? require.Length-2 : require.Length;
+
+                script = script.Remove(require.Index + offset, matchLength);
+                script = script.Insert(require.Index + offset, key);
+                offset += key.Length - matchLength;
             }
 
-            return coffeeScript;
+            return script;
         }
     }
 }
