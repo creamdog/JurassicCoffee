@@ -3,6 +3,6 @@
 
 helloworld('hello!')
 
-sayhello = `#= require ./include.js`
+sayhello = #= require `./include.js`
 
 apa = kjfhdskjfhsdkjhfsdjk

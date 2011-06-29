@@ -26,9 +26,9 @@ namespace JurassicCoffee.Core.Plugins
             {
                 var path = requiredMatch.Groups["requiredFile"].Value.Trim();
 
-                var isInline = path.EndsWith("`");
+                var isEmbedded = path.EndsWith("`") && path.StartsWith("`");
 
-                path = isInline ? path.Substring(0, path.Length - 1) : path;
+                path = isEmbedded ? path.Substring(1, path.Length - 2) : path;
 
                 var requiredScriptFile = new FileInfo(path);
 
@@ -43,16 +43,14 @@ namespace JurassicCoffee.Core.Plugins
                     var requiredScriptSource = File.ReadAllText(requiredScriptFile.FullName);
                     requiredScriptSource = InsertRequiredFiles(context, requiredScriptSource, includedRequiredFiles);
 
-                    requiredScriptSource = isInline ? requiredScriptSource.Replace("`", "#JurassicCoffeeSplot#" + context.Id.ToString()) : requiredScriptSource;
+                    requiredScriptSource = isEmbedded ? requiredScriptSource.Replace("`", "#JurassicCoffeeSplot#" + context.Id.ToString()) : requiredScriptSource;
 
-                    source = string.Format("{0}", requiredScriptSource);
+                    source = string.Format("{0}", string.Format("{0}{1}{0}", isEmbedded ? "`" : "", requiredScriptSource));
                 }
 
-                var matchLength = isInline ? requiredMatch.Length - 2 : requiredMatch.Length;
-
-                script = script.Remove(requiredMatch.Index + offset, matchLength);
+                script = script.Remove(requiredMatch.Index + offset, requiredMatch.Length);
                 script = script.Insert(requiredMatch.Index + offset, source);
-                offset += source.Length - matchLength;
+                offset += source.Length - requiredMatch.Length;
             }
 
             return script;
