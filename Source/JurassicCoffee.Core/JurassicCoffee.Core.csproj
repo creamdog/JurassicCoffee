@@ -45,12 +45,18 @@
   <ItemGroup>
     <Compile Include="Compiler.cs" />
     <Compile Include="CompilerContext.cs" />
-    <Compile Include="Precompiler.cs" />
+    <Compile Include="Plugins\JavascriptMinifier.cs" />
+    <Compile Include="Plugins\RequiredCoffeeFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\..\Dependencies\CoffeeScript\coffee-script.js">
       <Link>coffee-script.js</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\Dependencies\JSMin\jsmin.js">
+      <Link>jsmin.js</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

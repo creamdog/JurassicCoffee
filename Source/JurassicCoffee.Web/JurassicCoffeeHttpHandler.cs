@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using JurassicCoffee.Core;
+using JurassicCoffee.Core.Plugins;
 
 namespace JurassicCoffee.Web
 {
@@ -16,6 +17,7 @@ namespace JurassicCoffee.Web
             get
             {
                 _coffeeCompiler = _coffeeCompiler ?? new Compiler();
+                _coffeeCompiler.PostcompilationActions.Add(JavascriptMinifier.Minify);
                 return _coffeeCompiler;
             }
         }
@@ -23,12 +25,18 @@ namespace JurassicCoffee.Web
         public void ProcessRequest(HttpContext context)
         {
             var file = new FileInfo(context.Server.MapPath(context.Request.FilePath));
+
+            if(file.Directory == null)
+                throw new FileNotFoundException(context.Server.MapPath(context.Request.FilePath));
+
+            var workingDirectory = file.Directory.FullName;
+
+            context.Response.ContentType = "text/javascript";
+
             using (var output = new StreamWriter(context.Response.OutputStream))
             {
                 using (var input = new StreamReader(file.OpenRead()))
                 {
-                    context.Response.ContentType = "text/javascript";
-                    var workingDirectory = file.Directory.FullName;
                     CoffeeCompiler.Compile(workingDirectory, input, output);
                 }
             }

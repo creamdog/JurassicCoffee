@@ -5,14 +5,12 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Jurassic;
 using System.Linq;
+using JurassicCoffee.Core.Plugins;
 
 namespace JurassicCoffee.Core
 {
     public class Compiler
     {
-        [ThreadStatic]
-        private static ScriptEngine _engine;
-
         private readonly List<Func<CompilerContext, string, string>> _preScriptLoadActions;
         public List<Func<CompilerContext, string, string>> PreScriptLoadActions
         {
@@ -44,10 +42,12 @@ namespace JurassicCoffee.Core
             _postcompilationActions = new List<Func<CompilerContext, string, string>>();
             _preScriptLoadActions = new List<Func<CompilerContext, string, string>>();
             _preScriptOutputActions = new List<Func<CompilerContext, string, string>>();
-            PrecompilationActions.Add(Precompiler.InsertRequiredFiles);
-            PostcompilationActions.Add(Precompiler.ReplaceJurassicCoffeeSplot);
+            PrecompilationActions.Add(RequiredCoffeeFiles.InsertRequiredFiles);
+            PostcompilationActions.Add(RequiredCoffeeFiles.ReplaceJurassicCoffeeSplot);
         }
 
+        [ThreadStatic]
+        private static ScriptEngine _engine;
         private static ScriptEngine Engine
         {
             get
