@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using JurassicCoffee.Core;
 using JurassicCoffee.Core.Plugins;
+using JurassicCoffee.Web.Plugins;
 
 namespace JurassicCoffee.Web
 {
@@ -17,7 +18,7 @@ namespace JurassicCoffee.Web
             get
             {
                 _coffeeCompiler = _coffeeCompiler ?? new Compiler();
-                _coffeeCompiler.PostcompilationActions.Add(JavascriptMinifier.Minify);
+                _coffeeCompiler.PostcompilationActions.Add(YahooYuiCompressor.Compress);
                 return _coffeeCompiler;
             }
         }

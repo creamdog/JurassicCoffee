@@ -6,4 +6,7 @@ race = (winner, runners...) ->
 `#= require ./jquery-1.6.1.min.js`
 
 $(document).ready -> 
-  alert 'Hello from JurassicCoffee!'
+  message = "JurassicCoffee!"
+  h1 = $(document.createElement 'h1')
+  h1.text message
+  $('body').prepend h1
