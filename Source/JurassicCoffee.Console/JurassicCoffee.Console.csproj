@@ -11,7 +11,8 @@
     <RootNamespace>JurassicCoffee.Console</RootNamespace>
     <AssemblyName>JurassicCoffee.Console</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -62,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MonoOptions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -72,18 +74,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="include2.coffee">
+    <None Include="app.config" />
+    <None Include="Test\include2.coffee">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="include.coffee">
+    <None Include="Test\include.coffee">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="test.coffee">
+    <None Include="Test\test.coffee">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Test\Test2.coffee">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="include.js">
+    <EmbeddedResource Include="Help.txt" />
+    <Content Include="Test\include.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -113,7 +120,7 @@
   <PropertyGroup>
     <PostBuildEvent>mkdir Merged
 
-"$(SolutionDir)Dependencies\ILMerge\ILMerge.exe" /v4 /target:winexe /out:"$(TargetDir)Merged\JurassicCoffee.exe" "$(TargetDir)JurassicCoffee.Console.exe" "$(TargetDir)Jurassic.dll" "$(TargetDir)JurassicCoffee.Core.dll"</PostBuildEvent>
+"$(SolutionDir)Dependencies\ILMerge\ILMerge.exe" /v4 /wildcards /target:exe /out:"$(TargetDir)Merged\JurassicCoffee.exe" "$(TargetDir)JurassicCoffee.Console.exe" "$(TargetDir)*.dll"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

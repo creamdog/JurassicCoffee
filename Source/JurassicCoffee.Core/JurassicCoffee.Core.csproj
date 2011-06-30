@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EcmaScript.NET.modified">
+      <HintPath>..\..\Dependencies\Yahoo.Yui.Compressor v1.5.0.0.zip (for .NET 3.5)\EcmaScript.NET.modified.dll</HintPath>
+    </Reference>
     <Reference Include="Jurassic">
       <HintPath>..\..\Dependencies\Jurassic\Jurassic.dll</HintPath>
     </Reference>
@@ -41,12 +44,16 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Yahoo.Yui.Compressor">
+      <HintPath>..\..\Dependencies\Yahoo.Yui.Compressor v1.5.0.0.zip (for .NET 3.5)\Yahoo.Yui.Compressor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compiler.cs" />
+    <Compile Include="CoffeeCompiler.cs" />
     <Compile Include="CompilerContext.cs" />
     <Compile Include="Plugins\JavascriptMinifier.cs" />
     <Compile Include="Plugins\RequiredCoffeeFiles.cs" />
+    <Compile Include="Plugins\YahooYuiCompressor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

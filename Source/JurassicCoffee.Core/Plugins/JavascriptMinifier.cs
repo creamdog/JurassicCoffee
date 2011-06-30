@@ -31,7 +31,7 @@ namespace JurassicCoffee.Core.Plugins
             get
             {
 
-                using (var stream = Assembly.GetAssembly(typeof(Compiler)).GetManifestResourceStream("JurassicCoffee.Core.jsmin.js"))
+                using (var stream = Assembly.GetAssembly(typeof(CoffeeCompiler)).GetManifestResourceStream("JurassicCoffee.Core.jsmin.js"))
                 {
                     if (stream == null)
                         throw new NullReferenceException();

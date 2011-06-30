@@ -9,7 +9,7 @@ using JurassicCoffee.Core.Plugins;
 
 namespace JurassicCoffee.Core
 {
-    public class Compiler
+    public class CoffeeCompiler
     {
         private readonly List<Func<CompilerContext, string, string>> _preScriptLoadActions;
         public List<Func<CompilerContext, string, string>> PreScriptLoadActions
@@ -36,7 +36,7 @@ namespace JurassicCoffee.Core
         }
 
         
-        public Compiler()
+        public CoffeeCompiler()
         {
             _precompilationActions = new List<Func<CompilerContext, string, string>>();
             _postcompilationActions = new List<Func<CompilerContext, string, string>>();
@@ -67,7 +67,7 @@ namespace JurassicCoffee.Core
             get
             {
 
-                using(var stream = Assembly.GetAssembly(typeof(Compiler)).GetManifestResourceStream("JurassicCoffee.Core.coffee-script.js"))
+                using(var stream = Assembly.GetAssembly(typeof(CoffeeCompiler)).GetManifestResourceStream("JurassicCoffee.Core.coffee-script.js"))
                 {
                     if (stream == null)
                         throw new NullReferenceException();

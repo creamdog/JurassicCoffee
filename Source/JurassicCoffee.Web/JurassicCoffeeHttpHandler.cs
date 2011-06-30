@@ -7,19 +7,20 @@ using System.Web;
 using JurassicCoffee.Core;
 using JurassicCoffee.Core.Plugins;
 using JurassicCoffee.Web.Plugins;
+using YahooYuiCompressor = JurassicCoffee.Web.Plugins.YahooYuiCompressor;
 
 namespace JurassicCoffee.Web
 {
     public class JurassicCoffeeHttpHandler : IHttpHandler
     {
-        private Compiler _coffeeCompiler;
-        private Compiler CoffeeCompiler
+        private CoffeeCompiler _coffeeCoffeeCompiler;
+        private CoffeeCompiler CoffeeCoffeeCompiler
         {
             get
             {
-                _coffeeCompiler = _coffeeCompiler ?? new Compiler();
-                _coffeeCompiler.PostcompilationActions.Add(YahooYuiCompressor.Compress);
-                return _coffeeCompiler;
+                _coffeeCoffeeCompiler = _coffeeCoffeeCompiler ?? new CoffeeCompiler();
+                _coffeeCoffeeCompiler.PostcompilationActions.Add(YahooYuiCompressor.Compress);
+                return _coffeeCoffeeCompiler;
             }
         }
 
@@ -38,7 +39,7 @@ namespace JurassicCoffee.Web
             {
                 using (var input = new StreamReader(file.OpenRead()))
                 {
-                    CoffeeCompiler.Compile(workingDirectory, input, output);
+                    CoffeeCoffeeCompiler.Compile(workingDirectory, input, output);
                 }
             }
         }
