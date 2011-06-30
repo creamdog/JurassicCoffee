@@ -27,7 +27,7 @@ includes desired coffee file into the compilation
     # require sayhello.coffee
     sayhello 'charles'
 
-#### # require ´file.js´
+#### # require `file.js`
 
 embeds desired javascript file
 
