@@ -1,7 +1,7 @@
 #Jurassic-Coffee
 ####.NET compiler for .coffee files using [coffee-script.js](http://jashkenas.github.com/coffee-script/) & [Jurassic](http://jurassic.codeplex.com/)
 
-![jurassic-coffee](http://bit.ly/ifd0KQ)
+![jurassic-coffee](http://s3.amazonaws.com/data.tumblr.com/tumblr_lnjxv04jxq1qkgjd1o1_1280.png?AWSAccessKeyId=AKIAJ6IHWSU3BX3X7X3Q&Expires=1309437620&Signature=EOfIHOdnYj%2BoDONYh10r/gVwRbg%3D)
 
 ## Features
 
