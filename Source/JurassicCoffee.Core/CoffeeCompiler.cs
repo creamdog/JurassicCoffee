@@ -23,51 +23,62 @@ namespace JurassicCoffee.Core
             get { return _preScriptOutputActions; }
         }
 
-        private readonly List<Func<CompilerContext, string, string>> _precompilationActions;
-        public List<Func<CompilerContext, string, string>> PrecompilationActions
+        private readonly List<Func<CompilerContext, string, string>> _preCompilationActions;
+        public List<Func<CompilerContext, string, string>> PreCompilationActions
         {
-            get { return _precompilationActions; }
+            get { return _preCompilationActions; }
         }
 
-        private readonly List<Func<CompilerContext, string, string>> _postcompilationActions;
-        public List<Func<CompilerContext, string, string>> PostcompilationActions
+        private readonly List<Func<CompilerContext, string, string>> _postCompilationActions;
+        public List<Func<CompilerContext, string, string>> PostCompilationActions
         {
-            get { return _postcompilationActions; }
+            get { return _postCompilationActions; }
         }
+
+        public string CoffeeCompilerScriptPath { get; set; }
 
         
         public CoffeeCompiler()
         {
-            _precompilationActions = new List<Func<CompilerContext, string, string>>();
-            _postcompilationActions = new List<Func<CompilerContext, string, string>>();
+            _preCompilationActions = new List<Func<CompilerContext, string, string>>();
+            _postCompilationActions = new List<Func<CompilerContext, string, string>>();
             _preScriptLoadActions = new List<Func<CompilerContext, string, string>>();
             _preScriptOutputActions = new List<Func<CompilerContext, string, string>>();
-            PrecompilationActions.Add(RequiredCoffeeFiles.InsertRequiredFiles);
-            PostcompilationActions.Add(RequiredCoffeeFiles.ReplaceJurassicCoffeeSplot);
+            PreCompilationActions.Add(RequiredCoffeeFiles.InsertRequiredFiles);
+            PostCompilationActions.Add(RequiredCoffeeFiles.ReplaceJurassicCoffeeSplot);
         }
 
         [ThreadStatic]
         private static ScriptEngine _engine;
-        private static ScriptEngine Engine
+        private ScriptEngine Engine
         {
             get
             {
                 if (_engine == null)
                 {
                     _engine = new ScriptEngine();
-                    _engine.Execute(CoffeeScriptResource);
+                    _engine.Execute(CoffeeCompilerScript);
                 }
 
                 return _engine;
             }
         }
 
-        private static String CoffeeScriptResource
+        
+
+        private Stream GetCoffeeCompilerScriptStream()
+        {
+            return string.IsNullOrEmpty(CoffeeCompilerScriptPath)
+            ? Assembly.GetAssembly(typeof(CoffeeCompiler)).GetManifestResourceStream("JurassicCoffee.Core.coffee-script.js")
+            : File.OpenRead(CoffeeCompilerScriptPath);
+        }
+
+        private String CoffeeCompilerScript
         {
             get
             {
 
-                using(var stream = Assembly.GetAssembly(typeof(CoffeeCompiler)).GetManifestResourceStream("JurassicCoffee.Core.coffee-script.js"))
+                using (var stream = GetCoffeeCompilerScriptStream())
                 {
                     if (stream == null)
                         throw new NullReferenceException();
@@ -124,11 +135,17 @@ namespace JurassicCoffee.Core
         {
             var coffeeScript = input.ReadToEnd();
 
-            coffeeScript = _precompilationActions.Aggregate(coffeeScript, (current, action) => action(context, current));
+            coffeeScript = _preCompilationActions.Aggregate(coffeeScript, (current, action) => action(context, current));
+            
+            string javascript;
 
-            var javascript = CompileString(coffeeScript);
+            try {
+                javascript = CompileString(coffeeScript);
+            } catch(JavaScriptException ex) {
+                throw new CompilationException(ex.Message, ex);
+            }
 
-            javascript = _postcompilationActions.Aggregate(javascript, (current, action) => action(context, current));
+            javascript = _postCompilationActions.Aggregate(javascript, (current, action) => action(context, current));
 
             output.Write(javascript);
         }

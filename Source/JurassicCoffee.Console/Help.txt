@@ -1,4 +1,5 @@
 ﻿
+Jurassic-Coffee : .NET coffee-script compiler
+
 example: JurassicCoffee script.coffee "will compile ./script.coffee into ./script.js"
 example: JurassicCoffee script.coffee -o c:/inetpub/site1/scripts/default.js "will compile ./script.coffee into c:/inetpub/site1/scripts/default.js"
-

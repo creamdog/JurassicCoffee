@@ -19,7 +19,7 @@ namespace JurassicCoffee.Web
             get
             {
                 _coffeeCoffeeCompiler = _coffeeCoffeeCompiler ?? new CoffeeCompiler();
-                _coffeeCoffeeCompiler.PostcompilationActions.Add(YahooYuiCompressor.Compress);
+                _coffeeCoffeeCompiler.PostCompilationActions.Add(YahooYuiCompressor.Compress);
                 return _coffeeCoffeeCompiler;
             }
         }

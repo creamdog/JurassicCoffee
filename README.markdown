@@ -55,6 +55,7 @@ $(document).ready ->
 JurassicCoffee.exe script.coffee //compiles into script.js
 JurassicCoffee.exe script.coffee -o out.js //compiles into out.js
 JurassicCoffee.exe script.coffee -c //YUI Compression enabled
+JurassicCoffee.exe script.coffee -e coffee-script.nighlty.version.js //compile using custom version of coffee-script
 ```
 
 ### Http Handler    

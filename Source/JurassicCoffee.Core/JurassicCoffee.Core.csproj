@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoffeeCompiler.cs" />
+    <Compile Include="CompilationException.cs" />
     <Compile Include="CompilerContext.cs" />
     <Compile Include="Plugins\JavascriptMinifier.cs" />
     <Compile Include="Plugins\RequiredCoffeeFiles.cs" />

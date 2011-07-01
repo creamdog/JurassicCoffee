@@ -18,20 +18,21 @@ namespace JurassicCoffee.Console
             var workingDirectory = string.Empty;
             var compress = false;
             var require = true;
+            var externalCompilationScriptPath = string.Empty;
 
-            var p = new OptionSet
-            {
+            var p = new OptionSet {
                 { "o|output=", "set output file", f => output = f },
                 { "w|workingdir=", "set working directory", w => workingDirectory = w },
                 { "c|compression","enable compression", c => compress = true },
-                { "d|disableimport","disable #= require statements", c => require = false },
+                { "d|disableimport","disable #= require statements", d => require = false },
+                { "e|external=", "set .js coffee compilation script", e => externalCompilationScriptPath = e },
                 { "h|?|help","this help text", c => input = string.Empty }
             };
 
-            var e = p.Parse(args);
+             p.Parse(args);
 
-            if (string.IsNullOrEmpty(input) || !File.Exists(input))
-            {
+            if (string.IsNullOrEmpty(input) || !File.Exists(input)) {
+                System.Console.WriteLine("[!] cannot find {0}", input);
                 PrintHelp(p);
                 return;
             }
@@ -42,28 +43,46 @@ namespace JurassicCoffee.Console
 
             output = string.IsNullOrEmpty(output) ? Regex.Replace(inputFileInfo.FullName, inputFileInfo.Extension + "$", ".js", RegexOptions.IgnoreCase) : output;
 
+            if (!string.IsNullOrEmpty(externalCompilationScriptPath)) {
+                if (!File.Exists(externalCompilationScriptPath)) {
+                    System.Console.WriteLine("[!] cannot find {0}", externalCompilationScriptPath);
+                    PrintHelp(p);
+                    return;
+                }
+                System.Console.WriteLine("compiling with script: {0}", externalCompilationScriptPath);
+            }
 
             System.Console.WriteLine("compiling: {0}",input);
             System.Console.WriteLine("output: {0}", output);
             System.Console.WriteLine("workingDirectory: {0}", workingDirectory);
             System.Console.WriteLine("compression: {0}", compress);
             System.Console.WriteLine("imports: {0}", require);
-
-            using(var inputStream = new StreamReader(File.OpenRead(input)))
+            try
             {
-                using(var outputStream = new StreamWriter(File.Open(output, FileMode.Create)))
+                using (var inputStream = new StreamReader(File.OpenRead(input)))
                 {
+                    using(var outputStream = new StreamWriter(File.Open(output, FileMode.Create)))
+                    {
 
-                    var compiler = new CoffeeCompiler();
+                        var compiler = new CoffeeCompiler();
 
-                    if(compress)
-                        compiler.PostcompilationActions.Add(Core.Plugins.YahooYuiCompressor.Compress);
+                        if (!string.IsNullOrEmpty(externalCompilationScriptPath))
+                            compiler.CoffeeCompilerScriptPath = externalCompilationScriptPath;
 
-                    if(!require)
-                        compiler.PrecompilationActions.Clear();
+                        if(compress)
+                            compiler.PostCompilationActions.Add(Core.Plugins.YahooYuiCompressor.Compress);
 
-                    compiler.Compile(workingDirectory, inputStream, outputStream);
+                        if(!require)
+                            compiler.PreCompilationActions.Clear();
+
+
+                            compiler.Compile(workingDirectory, inputStream, outputStream);
+
+                    }
                 }
+
+            } catch(Exception ex) {
+                System.Console.WriteLine(ex.Message);
             }
             
         }
