@@ -7,7 +7,7 @@
     <owners>Christian Westman</owners>
     <projectUrl>http://github.com/creamdog/JurassicCoffee</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>CoffeeScript Compiler Implementation in .NET</description>
+    <description>coffee-script compiler implementation in .NET. With HttpHandler for *.coffee files. compiles using the official coffee-script compiler from http://jashkenas.github.com/coffee-script/ via the Jurassic javascript engine http://jurassic.codeplex.com/. Console application availible from project site.</description>
     <tags>coffeescript coffee-script coffee script javascript jurassic</tags>
     <!--<dependencies>
       <dependency id="SampleDependency" version="1.0" />
