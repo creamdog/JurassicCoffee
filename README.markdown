@@ -82,9 +82,9 @@ JurassicCoffee.exe script.coffee -e coffee-script.nighlty.version.js //compile u
 #### web.config
 
 ##### Set compiled output directory
-relative to the server root
 ```xml
 <appSettings>
+	<!--relative to the server root-->
     <add key="JurassicCoffee.CompiledDirectory" value="compiled-coffee"/>
 </appSettings>
 ```
