@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Web;
 using JurassicCoffee.Core;
 using JurassicCoffee.Core.Plugins;
-using JurassicCoffee.Web.Plugins;
-using YahooYuiCompressor = JurassicCoffee.Web.Plugins.YahooYuiCompressor;
 
 namespace JurassicCoffee.Web
 {

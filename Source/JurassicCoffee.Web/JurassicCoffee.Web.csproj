@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JurassicCoffeeHttpHandler.cs" />
-    <Compile Include="Plugins\YahooYuiCompressor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +60,11 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir Merged
+
+"$(SolutionDir)Dependencies\ILMerge\ILMerge.exe" /v4 /wildcards /target:dll /out:"$(TargetDir)Merged\JurassicCoffee.dll" "$(TargetDir)*.dll"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
