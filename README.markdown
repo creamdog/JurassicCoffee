@@ -9,6 +9,7 @@
 
 - Installs as a single JurassicCoffee.dll
 - Adds a *.coffee HttpHandler to you web.config if you have one
+
 ```
 >> Install-Package jurassic-coffee
 ```
