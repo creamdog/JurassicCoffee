@@ -1,7 +1,23 @@
 #Jurassic-Coffee
 ####.NET compiler for .coffee files using [coffee-script.js](http://jashkenas.github.com/coffee-script/) & [Jurassic](http://jurassic.codeplex.com/)
 
-![jurassic-coffee](http://creamdog.se/jurassic-coffee.png)
+![jurassic-coffee](http://creamdog.se/jurassic-coffee.small.png)
+## Installation
+
+###1. install as a Nuget package:
+*Download and install [Nuget](http://nuget.org/) if you do not allready have it.*
+
+- Installs as a single JurassicCoffee.dll
+- Adds a *.coffee HttpHandler to you web.config if you have one
+```
+>> Install-Package jurassic-coffee
+```
+
+###2. download and build it from source
+*Always nice to have the latest version*
+
+###3. Download a pre-built binary 
+*note that it may be be an older version than that from source*
 
 ## Features
 
