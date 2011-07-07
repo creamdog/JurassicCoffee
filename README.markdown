@@ -76,11 +76,23 @@ JurassicCoffee.exe script.coffee -e coffee-script.nighlty.version.js //compile u
 
 ### Http Handler    
 
-*web.config*
+- Compiles *.coffee files into *.js files
+- Watches *.coffee files for changes and only re-compiles when files have changed
 
+#### web.config
+
+##### Set compiled output directory
+*relative to the server root*
+```xml
+<appSettings>
+    <add key="JurassicCoffee.CompiledDirectory" value="compiled-coffee"/>
+</appSettings>
+```
+
+##### Add http handler section
 ```xml
 <httpHandlers> 
-  <add type="JurassicCoffee.Web.JurassicCoffeeHttpHandler,JurassicCoffee.Web" validate="false" path="*.coffee" verb="*" />
+    <add type="JurassicCoffee.Web.JurassicCoffeeHttpHandler,JurassicCoffee.Web" validate="false" path="*.coffee" verb="*" />
 </httpHandlers>
 ```
 

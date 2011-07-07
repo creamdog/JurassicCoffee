@@ -15,16 +15,5 @@ namespace JurassicCoffee.WebForms.Example
 
         }
 
-        protected override void Render(HtmlTextWriter writer)
-        {
-            base.Render(writer);
-
-            foreach (var control in this.Page.Controls.Cast<Control>())
-            {
-               
-                foreach (var control2 in control.Controls.Cast<Control>())
-                    writer.Write((object)control2);
-            }
-        }
     }
 }

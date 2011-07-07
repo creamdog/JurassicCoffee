@@ -6,6 +6,7 @@
 <head runat="server">
     <title></title>
     <script src="scripts/default.coffee" type="text/javascript"></script>
+    <script src="scripts/sub/additional.coffee" type="text/javascript"></script>
 </head>
 <body>
     <form id="form1" runat="server">

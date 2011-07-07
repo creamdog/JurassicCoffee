@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\default.coffee" />
+    <None Include="scripts\sub\additional.coffee" />
     <None Include="scripts\write.coffee" />
   </ItemGroup>
   <ItemGroup>
