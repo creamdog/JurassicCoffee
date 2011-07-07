@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<configuration>
+    <system.web>
+      <httpHandlers>
+        <add type="JurassicCoffee.Web.JurassicCoffeeHttpHandler,JurassicCoffee" validate="false" path="*.coffee" verb="*" />
+      </httpHandlers>
+    </system.web>
+</configuration>
