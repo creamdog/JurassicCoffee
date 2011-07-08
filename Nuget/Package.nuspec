@@ -2,10 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>jurassic-coffee</id>
-    <version>0.1</version>
+    <version>0.2</version>
     <authors>Christian Westman</authors>
     <owners>Christian Westman</owners>
     <projectUrl>http://github.com/creamdog/JurassicCoffee</projectUrl>
+    <iconUrl>http://creamdog.se/jurassic.coffee.icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>coffee-script compiler implementation in .NET. With HttpHandler for *.coffee files. compiles using the official coffee-script compiler from http://jashkenas.github.com/coffee-script/ via the Jurassic javascript engine http://jurassic.codeplex.com/. Console application availible from project site.</description>
     <tags>coffeescript coffee-script coffee script javascript jurassic</tags>

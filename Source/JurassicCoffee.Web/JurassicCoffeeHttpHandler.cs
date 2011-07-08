@@ -12,7 +12,7 @@ namespace JurassicCoffee.Web
     {
         private readonly FileSystemWatcher _coffeeScriptFilesWatcher;
         private readonly FileSystemWatcher _javascriptFilesWatcher;
-        private readonly ConcurrentDictionary<string, string> _coffeeJavascriptFilesMap;
+        private static readonly ConcurrentDictionary<string, string> CoffeeJavascriptFilesMap = new ConcurrentDictionary<string, string>();
         
         private string _compiledJavascriptDirectorPath = string.Empty;
         private static readonly object Lock = new object();
@@ -42,8 +42,6 @@ namespace JurassicCoffee.Web
             _javascriptFilesWatcher.Renamed += FileRenamed;
 
             _watchersInitialized = false;
-
-            _coffeeJavascriptFilesMap = new ConcurrentDictionary<string, string>();
         }
 
         private void FileRenamed(object sender, RenamedEventArgs e)
@@ -62,18 +60,19 @@ namespace JurassicCoffee.Web
             var fileInfo = new FileInfo(e.FullPath);
             string removeFile;
 
-            if (fileInfo.Extension == ".js") {
+            if (fileInfo.Extension == ".js" && (e.ChangeType == WatcherChangeTypes.Deleted || e.ChangeType == WatcherChangeTypes.Renamed))
+            {
                 //javascript files
-                var keys = _coffeeJavascriptFilesMap
+                var keys = CoffeeJavascriptFilesMap
                     .Where(a => a.Value == fileInfo.FullName)
                     .Select(a => a.Key).ToArray();
 
                 foreach (var key in keys)
-                    _coffeeJavascriptFilesMap.TryRemove(key, out removeFile);
+                    CoffeeJavascriptFilesMap.TryRemove(key, out removeFile);
             } else if (fileInfo.Extension == ".coffee") {
 
-                if (_coffeeJavascriptFilesMap.ContainsKey(fileInfo.FullName))
-                    _coffeeJavascriptFilesMap.TryRemove(fileInfo.FullName, out removeFile);
+                if (CoffeeJavascriptFilesMap.ContainsKey(fileInfo.FullName))
+                    CoffeeJavascriptFilesMap.TryRemove(fileInfo.FullName, out removeFile);
             }
         }
 
@@ -99,8 +98,8 @@ namespace JurassicCoffee.Web
             if (coffeeScriptFileInfo.Directory == null)
                 throw new FileNotFoundException(context.Server.MapPath(context.Request.FilePath));
 
-            if (_coffeeJavascriptFilesMap.ContainsKey(coffeeScriptFileInfo.FullName)) {
-                var javascriptFileInfo = new FileInfo(_coffeeJavascriptFilesMap[coffeeScriptFileInfo.FullName]);
+            if (CoffeeJavascriptFilesMap.ContainsKey(coffeeScriptFileInfo.FullName)) {
+                var javascriptFileInfo = new FileInfo(CoffeeJavascriptFilesMap[coffeeScriptFileInfo.FullName]);
                 context.Response.WriteFile(javascriptFileInfo.FullName);
                 return;
             }
@@ -147,7 +146,7 @@ namespace JurassicCoffee.Web
                 }
             }
 
-            _coffeeJavascriptFilesMap[coffeeScriptFileInfo.FullName] = outputFile.FullName;
+            CoffeeJavascriptFilesMap[coffeeScriptFileInfo.FullName] = outputFile.FullName;
             context.Response.WriteFile(outputFile.FullName);
         }
 

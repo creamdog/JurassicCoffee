@@ -1,7 +1,7 @@
 solution_file = "JurassicCoffee.sln"
 configuration = "release"
 
-target default, (compile):
+target default, (compile, package):
   pass
 
 target init:
