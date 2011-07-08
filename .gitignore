@@ -1,6 +1,7 @@
 _ReSharper.JurassicCoffee
 *.ReSharper.user
 JurassicCoffee.suo
+build
 Source/JurassicCoffee.Core/obj
 Source/JurassicCoffee.Core/bin
 Source/JurassicCoffee.Console/obj
