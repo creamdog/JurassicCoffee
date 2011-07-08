@@ -69,9 +69,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir Merged
-
-"$(SolutionDir)Dependencies\ILMerge\ILMerge.exe" /v4 /wildcards /target:dll /out:"$(TargetDir)Merged\JurassicCoffee.dll" "$(TargetDir)*.dll"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

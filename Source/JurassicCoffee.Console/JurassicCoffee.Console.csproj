@@ -49,6 +49,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -90,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Help.txt" />
+    <Content Include="app.ico" />
     <Content Include="Test\include.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -118,9 +122,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir Merged
-
-"$(SolutionDir)Dependencies\ILMerge\ILMerge.exe" /v4 /wildcards /target:exe /out:"$(TargetDir)Merged\JurassicCoffee.exe" "$(TargetDir)JurassicCoffee.Console.exe" "$(TargetDir)*.dll"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
