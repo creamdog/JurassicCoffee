@@ -77,8 +77,8 @@ JurassicCoffee.exe script.coffee -e coffee-script.nighlty.version.js //compile u
 
 ### Http Handler    
 
-- Compiles *.coffee files into *.js files
-- Watches *.coffee files for changes and only re-compiles when files have changed
+- Compiles .coffee files into .js files
+- Keeps track of .coffee and compiled .js files and only re-compiles when files are added, deleted or changed
 
 #### web.config
 
