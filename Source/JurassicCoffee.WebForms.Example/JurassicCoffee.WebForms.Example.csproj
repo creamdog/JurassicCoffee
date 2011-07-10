@@ -53,6 +53,7 @@
   <ItemGroup>
     <Content Include="default.aspx" />
     <Content Include="scripts\jquery-1.6.1.min.js" />
+    <Content Include="scripts\test.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -50,8 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoffeeCompiler.cs" />
-    <Compile Include="CompilationException.cs" />
+    <Compile Include="Diagnostics\CompilationRecord.cs" />
+    <Compile Include="Diagnostics\CompilationRecordEntry.cs" />
+    <Compile Include="CompilerException.cs" />
     <Compile Include="CompilerContext.cs" />
+    <Compile Include="Diagnostics\CompilationRecorder.cs" />
+    <Compile Include="Diagnostics\FileRecordEntry.cs" />
     <Compile Include="Plugins\JavascriptMinifier.cs" />
     <Compile Include="Plugins\RequiredCoffeeFiles.cs" />
     <Compile Include="Plugins\YahooYuiCompressor.cs" />

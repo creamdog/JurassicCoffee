@@ -79,6 +79,7 @@ JurassicCoffee.exe script.coffee -e coffee-script.nighlty.version.js //compile u
 
 - Compiles .coffee files into .js files
 - Keeps track of .coffee and compiled .js files and only re-compiles when files are added, deleted or changed
+- Keeps track of included files from "#= require" sprockets and re-compiles on changes
 
 #### web.config
 

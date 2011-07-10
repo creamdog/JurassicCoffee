@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using JurassicCoffee.Core.Diagnostics;
 
 namespace JurassicCoffee.Core.Plugins
 {
@@ -51,6 +52,8 @@ namespace JurassicCoffee.Core.Plugins
                 script = script.Remove(requiredMatch.Index + offset, requiredMatch.Length);
                 script = script.Insert(requiredMatch.Index + offset, source);
                 offset += source.Length - requiredMatch.Length;
+
+                context.CompilationRecorder.AddRecordEntry(new FileRecordEntry(requiredScriptFile, isEmbedded ? FileRecordEntry.FileInsertionMode.Embedded : FileRecordEntry.FileInsertionMode.Compiled, requiredScriptFile.FullName));
             }
 
             return script;

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Jurassic;
 using System.Linq;
+using JurassicCoffee.Core.Diagnostics;
 using JurassicCoffee.Core.Plugins;
 
 namespace JurassicCoffee.Core
@@ -91,20 +92,27 @@ namespace JurassicCoffee.Core
             }
         }
 
-        public FileInfo Compile(string coffeeScriptFile)
+        public CompilationRecord Compile(string coffeeScriptFile)
         {
             return Compile(coffeeScriptFile, new List<string>());
         }
 
-        internal FileInfo Compile(string coffeeScriptFilePath, List<string> includedRequiredFiles)
+        internal CompilationRecord Compile(string coffeeScriptFilePath, List<string> includedRequiredFiles)
         {
-            var context = new CompilerContext { WorkingDirectory = new FileInfo(coffeeScriptFilePath).Directory.FullName };
+            var compilationRecorder = new CompilationRecorder();
+            compilationRecorder.Start();
+            var coffeeScriptFileInfo = new FileInfo(coffeeScriptFilePath);
+            var context = new CompilerContext(compilationRecorder) { WorkingDirectory = coffeeScriptFileInfo.Directory.FullName };
+            return Compile(context, coffeeScriptFileInfo,  includedRequiredFiles);
+        }
 
-            var inputFilePath = _preScriptLoadActions.Aggregate(coffeeScriptFilePath, (current, action) => action(context, current));
+        internal CompilationRecord Compile(CompilerContext context, FileInfo coffeeScriptFileInfo, List<string> includedRequiredFiles)
+        {
+            var inputFilePath = _preScriptLoadActions.Aggregate(coffeeScriptFileInfo.FullName, (current, action) => action(context, current));
 
-            var coffeeScriptFileInfo = new FileInfo(inputFilePath);
+            coffeeScriptFileInfo = new FileInfo(inputFilePath);
 
-            context = new CompilerContext { WorkingDirectory = coffeeScriptFileInfo.Directory.FullName };
+            context = new CompilerContext(context.CompilationRecorder) { WorkingDirectory = coffeeScriptFileInfo.Directory.FullName };
 
             var javaScriptFilePath = Regex.Replace(coffeeScriptFileInfo.FullName, coffeeScriptFileInfo.Extension + "$", ".js", RegexOptions.IgnoreCase);
 
@@ -118,7 +126,9 @@ namespace JurassicCoffee.Core
                 }
             }
 
-            return new FileInfo(javaScriptFilePath);
+            context.CompilationRecorder.Stop();
+
+            return context.CompilationRecorder.GetRecord();
         }
 
         public void Compile(StreamReader input, StreamWriter output)
@@ -126,9 +136,13 @@ namespace JurassicCoffee.Core
             Compile(string.Empty, input, output);
         }
 
-        public void Compile(string workingDirectory, StreamReader input, StreamWriter output)
+        public CompilationRecord Compile(string workingDirectory, StreamReader input, StreamWriter output)
         {
-            Compile(new CompilerContext {WorkingDirectory = workingDirectory}, input, output);
+            var compilationRecorder = new CompilationRecorder();
+            compilationRecorder.Start();
+            Compile(new CompilerContext(compilationRecorder) { WorkingDirectory = workingDirectory }, input, output);
+            compilationRecorder.Stop();
+            return compilationRecorder.GetRecord();
         }
 
         private void Compile(CompilerContext context, StreamReader input, StreamWriter output)
@@ -142,7 +156,7 @@ namespace JurassicCoffee.Core
             try {
                 javascript = CompileString(coffeeScript);
             } catch(JavaScriptException ex) {
-                throw new CompilationException(ex.Message, ex);
+                throw new CompilerException(ex.Message, ex);
             }
 
             javascript = _postCompilationActions.Aggregate(javascript, (current, action) => action(context, current));
