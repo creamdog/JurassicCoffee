@@ -2,13 +2,13 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>jurassic-coffee</id>
-    <version>0.2</version>
+    <version>0.22</version>
     <authors>Christian Westman</authors>
     <owners>Christian Westman</owners>
     <projectUrl>http://github.com/creamdog/JurassicCoffee</projectUrl>
     <iconUrl>http://creamdog.se/jurassic.coffee.icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>coffee-script compiler implementation in .NET. With HttpHandler for *.coffee files. Keeps track of compiled *.js files and only recompiles when files change.</description>
+    <description>coffee-script compiler implementation in .NET. With HttpHandler for *.coffee files. Keeps track of compiled and included *.js/*.coffee files and only recompiles when files change.</description>
     <tags>coffeescript coffee-script coffee script javascript jurassic</tags>
     <!--<dependencies>
       <dependency id="SampleDependency" version="1.0" />

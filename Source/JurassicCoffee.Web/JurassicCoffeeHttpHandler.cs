@@ -98,55 +98,71 @@ namespace JurassicCoffee.Web
             ProcessCoffeeScriptRequest(context, file);
         }
 
-        private void ProcessCoffeeScriptRequest(HttpContext context, FileInfo coffeeScriptFileInfo)
+        private static bool ServeStaticFile(HttpContext context, FileInfo coffeeScriptFileInfo)
         {
             if (coffeeScriptFileInfo.Directory == null)
                 throw new FileNotFoundException(context.Server.MapPath(context.Request.FilePath));
 
-            if (CoffeeJavascriptOutputMap.ContainsKey(coffeeScriptFileInfo.FullName)) {
-                var javascriptFileInfo = new FileInfo(CoffeeJavascriptOutputMap[coffeeScriptFileInfo.FullName]);
-                context.Response.WriteFile(javascriptFileInfo.FullName);
-                return;
-            }
-            
-            var workingDirectory = coffeeScriptFileInfo.Directory.FullName;
-
-            context.Response.ContentType = "text/javascript";
-
-
-
-            if (!_watchersInitialized)
+            if (CoffeeJavascriptOutputMap.ContainsKey(coffeeScriptFileInfo.FullName))
             {
-                InitializeDirectory(context);
-                InitializeWatchers(coffeeScriptFileInfo.Directory.FullName, _compiledJavascriptDirectorPath);
+                var javascriptFileInfo = new FileInfo(CoffeeJavascriptOutputMap[coffeeScriptFileInfo.FullName]);
+                context.Response.ContentType = "text/javascript";
+                context.Response.WriteFile(javascriptFileInfo.FullName);
+                return true;
             }
+            return false;
+        }
 
+        private void CompileCoffeeScriptFile(HttpContext context, FileInfo coffeeScriptFileInfo)
+        {
+            var workingDirectory = coffeeScriptFileInfo.Directory.FullName;
             var root = context.Server.MapPath("/");
             var dir = coffeeScriptFileInfo.FullName.Substring(root.Length);
             dir = dir.Substring(0, dir.IndexOf(coffeeScriptFileInfo.Name));
-
             var outputFile = new FileInfo(Path.Combine(_compiledJavascriptDirectorPath, Path.Combine(dir, coffeeScriptFileInfo.Name + ".js")));
 
-            if (!outputFile.Directory.Exists) {
-                lock(Lock) {
-                    if (!outputFile.Directory.Exists) {
+            if (!outputFile.Directory.Exists)
+            {
+                lock (Lock)
+                {
+                    if (!outputFile.Directory.Exists)
+                    {
                         outputFile.Directory.Create();
                     }
                 }
             }
 
-            using (var output = new StreamWriter(outputFile.FullName, false)) {
-                using (var input = new StreamReader(coffeeScriptFileInfo.OpenRead())) {
+            using (var output = new StreamWriter(outputFile.FullName, false))
+            {
+                using (var input = new StreamReader(coffeeScriptFileInfo.OpenRead()))
+                {
                     var report = CoffeeCoffeeCompiler.Compile(workingDirectory, input, output);
 
                     CoffeeJavascriptOutputMap[coffeeScriptFileInfo.FullName] = outputFile.FullName;
 
                     foreach (var entry in report.Entries.Where(entry => entry is FileRecordEntry).Cast<FileRecordEntry>())
-                        CoffeeScriptIncludedFilesMap.Add(coffeeScriptFileInfo.FullName, entry.FileInfo.FullName);      
+                        CoffeeScriptIncludedFilesMap.Add(coffeeScriptFileInfo.FullName, entry.FileInfo.FullName);
                 }
             }
 
-            context.Response.WriteFile(outputFile.FullName);
+            ServeStaticFile(context, coffeeScriptFileInfo);
+        }
+
+        private void ProcessCoffeeScriptRequest(HttpContext context, FileInfo coffeeScriptFileInfo)
+        {
+            if(ServeStaticFile(context, coffeeScriptFileInfo))
+                return;
+            
+            if (!_watchersInitialized) {
+                InitializeDirectory(context);
+                InitializeWatchers(coffeeScriptFileInfo.Directory.FullName, _compiledJavascriptDirectorPath);
+            }
+            
+            lock (Lock) {
+                if (ServeStaticFile(context, coffeeScriptFileInfo))
+                    return;
+                CompileCoffeeScriptFile(context, coffeeScriptFileInfo);
+            }
         }
 
         private void InitializeDirectory(HttpContext context)
