@@ -15,6 +15,7 @@
 ```
 
 _make sure to add the following if you are installing into a MVC application_ : [Anujb](https://github.com/anujb)
+
 ```c#
 routes.IgnoreRoute("{resource}.coffee/{*pathInfo}");
 ```
