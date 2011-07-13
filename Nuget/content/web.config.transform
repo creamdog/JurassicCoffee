@@ -8,4 +8,9 @@
         <add type="JurassicCoffee.Web.JurassicCoffeeHttpHandler,JurassicCoffee" validate="false" path="*.coffee" verb="*" />
       </httpHandlers>
     </system.web>
+    <system.webServer>
+      <handlers>
+        <add name="JurassicCoffeeHttpHandler" type="JurassicCoffee.Web.JurassicCoffeeHttpHandler,JurassicCoffee" path="*.coffee" verb="*"/>
+      </handlers>
+    </system.webServer>
 </configuration>

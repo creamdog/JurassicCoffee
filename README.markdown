@@ -14,6 +14,11 @@
 >> Install-Package jurassic-coffee
 ```
 
+_make sure to add the following if you are installing into a MVC application_ : [Anujb](https://github.com/anujb)
+```c#
+routes.IgnoreRoute("{resource}.coffee/{*pathInfo}");
+```
+
 ###2. download and build it from source
 *Always nice to have the latest version*
 

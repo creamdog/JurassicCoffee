@@ -10,6 +10,7 @@ Source/JurassicCoffee.Web/obj
 Source/JurassicCoffee.Web/bin
 Source/JurassicCoffee.WebForms.Example/obj
 Source/JurassicCoffee.WebForms.Example/bin
+Source/JurassicCoffee.WebForms.Example/compiled-coffee
 Nuget/Lib/net40/*.dll
 Nuget/Lib/net35/*.dll
 Nuget/*.nupkg
