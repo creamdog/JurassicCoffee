@@ -1,13 +1,22 @@
 <?xml version="1.0"?>
 <configuration>
-    <appSettings>
-      <add key="JurassicCoffee.CompiledDirectory" value="compiled-coffee"/>
-    </appSettings>
+
+    <configSections>
+      <section name="jurassic.coffee" type="JurassicCoffee.Web.Configuration.ConfigurationHandler, JurassicCoffee.Web"/>
+    </configSections>
+
+    <jurassic.coffee>
+      <EnableCompression>true</EnableCompression>
+      <CompiledDirectory>compiled-coffee</CompiledDirectory>
+      <DebugMode>false</DebugMode>
+    </jurassic.coffee>
+  
     <system.web>
       <httpHandlers>
         <add type="JurassicCoffee.Web.JurassicCoffeeHttpHandler,JurassicCoffee" validate="false" path="*.coffee" verb="*" />
       </httpHandlers>
     </system.web>
+  
     <system.webServer>
       <handlers>
         <add name="JurassicCoffeeHttpHandler" type="JurassicCoffee.Web.JurassicCoffeeHttpHandler,JurassicCoffee" path="*.coffee" verb="*"/>

@@ -89,12 +89,20 @@ JurassicCoffee.exe script.coffee -e coffee-script.nighlty.version.js //compile u
 
 #### web.config
 
-##### Set compiled output directory
+##### Configuration Section
 ```xml
-<appSettings>
-	<!--relative to the server root-->
-    <add key="JurassicCoffee.CompiledDirectory" value="compiled-coffee"/>
-</appSettings>
+<configSections>
+    <section name="jurassic.coffee" type="JurassicCoffee.Web.Configuration.ConfigurationHandler, JurassicCoffee.Web"/>
+</configSections>
+
+<jurassic.coffee>
+	<!--enable/disable YUI compression-->
+    <EnableCompression>true</EnableCompression>
+	<!--compiled .js output directory-->
+    <CompiledDirectory>compiled-coffee</CompiledDirectory>
+	<!--disabled compression and adds debug information to compiled files-->
+    <DebugMode>false</DebugMode>
+</jurassic.coffee>
 ```
 
 ##### Add http handler section
@@ -102,6 +110,12 @@ JurassicCoffee.exe script.coffee -e coffee-script.nighlty.version.js //compile u
 <httpHandlers> 
     <add type="JurassicCoffee.Web.JurassicCoffeeHttpHandler,JurassicCoffee.Web" validate="false" path="*.coffee" verb="*" />
 </httpHandlers>
+```
+
+_make sure to add the following if you are installing into a MVC application_ : [Anujb](https://github.com/anujb)
+
+```c#
+routes.IgnoreRoute("{resource}.coffee/{*pathInfo}");
 ```
 
 ### code

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -47,6 +48,13 @@ namespace JurassicCoffee.Core.Plugins
                     requiredScriptSource = isEmbedded ? requiredScriptSource.Replace("`", "#JurassicCoffeeSplot#" + context.Id.ToString()) : requiredScriptSource;
 
                     source = string.Format("{0}", string.Format("{0}{1}{0}", isEmbedded ? "`" : "", requiredScriptSource));
+
+                    if (context.IsDebug)
+                        source = string.Format("/*[DBG:BEGIN] FILE: {0}*/{2}{1}{2}/*[DBG:END] FILE: {0}*/", requiredScriptFile.FullName, source, Environment.NewLine);
+                }
+                else if (context.IsDebug)
+                {
+                    source = string.Format("/*[DBG] DUPLICATE INCLUDE: {0}*/{2}{1}", requiredScriptFile.FullName, source, Environment.NewLine);
                 }
 
                 script = script.Remove(requiredMatch.Index + offset, requiredMatch.Length);

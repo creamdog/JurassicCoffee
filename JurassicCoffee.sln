@@ -13,7 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.bat = build.bat
 		build.boo = build.boo
 		package.bat = package.bat
+		Nuget\Package.nuspec = Nuget\Package.nuspec
 		README.markdown = README.markdown
+		Nuget\content\web.config.transform = Nuget\content\web.config.transform
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurassicCoffee.WebForms.Example", "Source\JurassicCoffee.WebForms.Example\JurassicCoffee.WebForms.Example.csproj", "{FD9E9C87-EDC0-422B-97D3-4E322D2D165B}"

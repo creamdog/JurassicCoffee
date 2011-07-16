@@ -38,9 +38,12 @@ namespace JurassicCoffee.Core
 
         public string CoffeeCompilerScriptPath { get; set; }
 
+        private bool _isDebug;
         
-        public CoffeeCompiler()
+        public CoffeeCompiler() : this(false) {}
+        public CoffeeCompiler(bool debug)
         {
+            _isDebug = debug;
             _preCompilationActions = new List<Func<CompilerContext, string, string>>();
             _postCompilationActions = new List<Func<CompilerContext, string, string>>();
             _preScriptLoadActions = new List<Func<CompilerContext, string, string>>();
@@ -102,7 +105,7 @@ namespace JurassicCoffee.Core
             var compilationRecorder = new CompilationRecorder();
             compilationRecorder.Start();
             var coffeeScriptFileInfo = new FileInfo(coffeeScriptFilePath);
-            var context = new CompilerContext(compilationRecorder) { WorkingDirectory = coffeeScriptFileInfo.Directory.FullName };
+            var context = new CompilerContext(compilationRecorder, _isDebug) { WorkingDirectory = coffeeScriptFileInfo.Directory.FullName };
             return Compile(context, coffeeScriptFileInfo,  includedRequiredFiles);
         }
 
@@ -112,7 +115,7 @@ namespace JurassicCoffee.Core
 
             coffeeScriptFileInfo = new FileInfo(inputFilePath);
 
-            context = new CompilerContext(context.CompilationRecorder) { WorkingDirectory = coffeeScriptFileInfo.Directory.FullName };
+            context = new CompilerContext(context.CompilationRecorder, _isDebug) { WorkingDirectory = coffeeScriptFileInfo.Directory.FullName };
 
             var javaScriptFilePath = Regex.Replace(coffeeScriptFileInfo.FullName, coffeeScriptFileInfo.Extension + "$", ".js", RegexOptions.IgnoreCase);
 
@@ -140,7 +143,7 @@ namespace JurassicCoffee.Core
         {
             var compilationRecorder = new CompilationRecorder();
             compilationRecorder.Start();
-            Compile(new CompilerContext(compilationRecorder) { WorkingDirectory = workingDirectory }, input, output);
+            Compile(new CompilerContext(compilationRecorder, _isDebug) { WorkingDirectory = workingDirectory }, input, output);
             compilationRecorder.Stop();
             return compilationRecorder.GetRecord();
         }

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Concurrent\ConcurrentMonoPolyMap.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="JurassicCoffeeHttpHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

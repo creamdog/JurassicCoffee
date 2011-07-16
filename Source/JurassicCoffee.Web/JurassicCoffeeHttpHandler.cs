@@ -21,7 +21,7 @@ namespace JurassicCoffee.Web
         private static readonly object Lock = new object();
         private bool _watchersInitialized;
 
-        private readonly string _compiledJavascriptDirectoryName;
+        private readonly Configuration.Configuration _configuration;
 
         public JurassicCoffeeHttpHandler()
         {
@@ -36,9 +36,7 @@ namespace JurassicCoffee.Web
             _outputFilesWatcher.Deleted += FileChanged;
             _outputFilesWatcher.Renamed += FileRenamed;
 
-           
-
-            _compiledJavascriptDirectoryName = ConfigurationManager.AppSettings["JurassicCoffee.CompiledDirectory"];
+            _configuration = ConfigurationManager.GetSection(Configuration.ConfigurationHandler.SectionName) as Configuration.Configuration;
 
             _watchersInitialized = false;
         }
@@ -86,8 +84,11 @@ namespace JurassicCoffee.Web
         {
             get
             {
-                _coffeeCoffeeCompiler = _coffeeCoffeeCompiler ?? new CoffeeCompiler();
-                _coffeeCoffeeCompiler.PostCompilationActions.Add(YahooYuiCompressor.Compress);
+                _coffeeCoffeeCompiler = _coffeeCoffeeCompiler ?? new CoffeeCompiler(_configuration.DebugMode);
+
+                if (!_configuration.DebugMode && _configuration.EnableCompression)
+                    _coffeeCoffeeCompiler.PostCompilationActions.Add(YahooYuiCompressor.Compress);
+
                 return _coffeeCoffeeCompiler;
             }
         }
@@ -132,6 +133,7 @@ namespace JurassicCoffee.Web
                 }
             }
 
+
             using (var output = new StreamWriter(outputFile.FullName, false))
             {
                 using (var input = new StreamReader(coffeeScriptFileInfo.OpenRead()))
@@ -173,7 +175,7 @@ namespace JurassicCoffee.Web
                 {
                     if (string.IsNullOrEmpty(_compiledJavascriptDirectorPath))
                     {
-                        _compiledJavascriptDirectorPath = context.Server.MapPath("/" + _compiledJavascriptDirectoryName);
+                        _compiledJavascriptDirectorPath = context.Server.MapPath("/" + _configuration.CompiledDirectory);
                         var outputDirInfo = new DirectoryInfo(_compiledJavascriptDirectorPath);
                         if (!outputDirInfo.Exists)
                             outputDirInfo.Create();

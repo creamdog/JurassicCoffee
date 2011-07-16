@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>jurassic-coffee</id>
-    <version>0.23</version>
+    <version>0.24</version>
     <authors>Christian Westman</authors>
     <owners>Christian Westman</owners>
     <projectUrl>http://github.com/creamdog/JurassicCoffee</projectUrl>
