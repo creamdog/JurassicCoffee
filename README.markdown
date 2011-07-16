@@ -89,7 +89,8 @@ JurassicCoffee.exe script.coffee -e coffee-script.nighlty.version.js //compile u
 
 #### web.config
 
-##### Configuration Section
+_configuration section_
+
 ```xml
 <configSections>
     <section name="jurassic.coffee" type="JurassicCoffee.Web.Configuration.ConfigurationHandler, JurassicCoffee.Web"/>
@@ -105,7 +106,8 @@ JurassicCoffee.exe script.coffee -e coffee-script.nighlty.version.js //compile u
 </jurassic.coffee>
 ```
 
-##### Add http handler section
+_http handler section_
+
 ```xml
 <httpHandlers> 
     <add type="JurassicCoffee.Web.JurassicCoffeeHttpHandler,JurassicCoffee.Web" validate="false" path="*.coffee" verb="*" />
