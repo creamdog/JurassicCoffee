@@ -1,27 +1,28 @@
 ﻿
 using System;
 using System.IO;
+using JurassicCoffee.Core.IO;
 
 namespace JurassicCoffee.Core.Diagnostics
 {
     public class FileRecordEntry : CompilationRecordEntry
     {
-        public FileRecordEntry(FileInfo fileInfo, FileInsertionMode fileInsertionMode, string description)
+        public FileRecordEntry(string file, FileProtocol fileProtocol, FileInsertionMode fileInsertionMode, string description)
         {
-            FileInfo = fileInfo;
+            File = file;
             InsertionMode = fileInsertionMode;
             Description = description;
+            Protocol = fileProtocol;
         }
 
-        public FileInfo FileInfo { get; private set; }
+        public string File { get; private set; }
         public FileInsertionMode InsertionMode { get; private set; }
+        public FileProtocol Protocol { get; private set; }
         
         public enum FileInsertionMode
         {
             Embedded,
             Compiled
         }
-
-        
     }
 }

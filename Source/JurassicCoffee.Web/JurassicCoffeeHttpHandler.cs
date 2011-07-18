@@ -4,6 +4,7 @@ using System.IO;
 using System.Web;
 using JurassicCoffee.Core;
 using JurassicCoffee.Core.Diagnostics;
+using JurassicCoffee.Core.IO;
 using JurassicCoffee.Core.Plugins;
 using System.Linq;
 using JurassicCoffee.Web.Collections.Concurrent;
@@ -142,8 +143,8 @@ namespace JurassicCoffee.Web
 
                     CoffeeJavascriptOutputMap[coffeeScriptFileInfo.FullName] = outputFile.FullName;
 
-                    foreach (var entry in report.Entries.Where(entry => entry is FileRecordEntry).Cast<FileRecordEntry>())
-                        CoffeeScriptIncludedFilesMap.Add(coffeeScriptFileInfo.FullName, entry.FileInfo.FullName);
+                    foreach (var entry in report.Entries.Where(entry => entry is FileRecordEntry).Cast<FileRecordEntry>().Where(file => file.Protocol == FileProtocol.LocalFile))
+                        CoffeeScriptIncludedFilesMap.Add(coffeeScriptFileInfo.FullName, entry.File);
                 }
             }
 

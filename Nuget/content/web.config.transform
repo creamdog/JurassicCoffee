@@ -2,7 +2,7 @@
 <configuration>
 
     <configSections>
-      <section name="jurassic.coffee" type="JurassicCoffee.Web.Configuration.ConfigurationHandler, JurassicCoffee.Web"/>
+      <section name="jurassic.coffee" type="JurassicCoffee.Web.Configuration.ConfigurationHandler, JurassicCoffee"/>
     </configSections>
 
     <jurassic.coffee>
