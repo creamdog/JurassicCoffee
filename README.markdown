@@ -71,6 +71,16 @@ $(document).ready ->
   $('body').prepend h1    
 ```
 
+### including external files via http(s)
+
+files can be loaded via http(s)
+
+_additional require statements in files loaded in this manner will not be evaluated_
+
+```coffeescript
+#= require `https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js`  
+```
+
 ## Usage
 
 ### command line tool
