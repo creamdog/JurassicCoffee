@@ -1,5 +1,6 @@
 #Jurassic-Coffee
 ####.NET compiler for .coffee files using [coffee-script.js](http://jashkenas.github.com/coffee-script/) & [Jurassic](http://jurassic.codeplex.com/)
+####Embedding of local or external .js or .coffee files
 
 ![jurassic-coffee](http://creamdog.se/jurassic-coffee.small.png)
 ## Installation
@@ -52,7 +53,7 @@ sayhello = (name)-> alert name
 *main.coffee*
 
 ```coffeescript
-# require sayhello.coffee
+#= require sayhello.coffee
 sayhello 'charles'
 ```
 
@@ -124,7 +125,7 @@ _http handler section_
 </httpHandlers>
 ```
 
-_make sure to add the following if you are installing into a MVC application_ : [Anujb](https://github.com/anujb)
+_make sure to add the following if you have a MVC application_ : [Anujb](https://github.com/anujb)
 
 ```c#
 routes.IgnoreRoute("{resource}.coffee/{*pathInfo}");
