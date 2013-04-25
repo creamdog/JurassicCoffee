@@ -9,18 +9,18 @@ using JurassicCoffee.Core;
 
 namespace JurassicCoffee.Console
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var input = args.FirstOrDefault();
-            var output = string.Empty;
-            var workingDirectory = string.Empty;
-            var compress = false;
-            var require = true;
-            var externalCompilationScriptPath = string.Empty;
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			var input = args.FirstOrDefault();
+			var output = string.Empty;
+			var workingDirectory = string.Empty;
+			var compress = false;
+			var require = true;
+			var externalCompilationScriptPath = string.Empty;
 
-            var p = new OptionSet {
+			var p = new OptionSet {
                 { "o|output=", "set output file", f => output = f },
                 { "w|workingdir=", "set working directory", w => workingDirectory = w },
                 { "c|compression","enable compression", c => compress = true },
@@ -29,93 +29,101 @@ namespace JurassicCoffee.Console
                 { "h|?|help","this help text", c => input = string.Empty }
             };
 
-             p.Parse(args);
+			p.Parse(args);
 
-            if (string.IsNullOrEmpty(input) || !File.Exists(input)) {
-                System.Console.WriteLine("[!] cannot find {0}", input);
-                PrintHelp(p);
-                return;
-            }
+			if (string.IsNullOrEmpty(input) || !Directory.Exists(input))
+			{
+				System.Console.WriteLine("[!] cannot find {0}", input);
+				PrintHelp(p);
+				return;
+			}
 
-            var inputFileInfo = new FileInfo(input);
+			System.Console.WriteLine("workingDirectory: {0}", workingDirectory);
+			System.Console.WriteLine("compression: {0}", compress);
+			System.Console.WriteLine("imports: {0}", require);
 
-            workingDirectory = string.IsNullOrEmpty(workingDirectory) ? inputFileInfo.Directory.FullName : workingDirectory;
+			var inputDirectory = new DirectoryInfo(input);
+			var outputDirectory = (string.IsNullOrEmpty(output))? inputDirectory: new DirectoryInfo(output);
+			workingDirectory = string.IsNullOrEmpty(workingDirectory) ? inputDirectory.FullName : workingDirectory;
 
-            output = string.IsNullOrEmpty(output) ? Regex.Replace(inputFileInfo.FullName, inputFileInfo.Extension + "$", ".js", RegexOptions.IgnoreCase) : output;
+			if (!outputDirectory.Exists)
+				outputDirectory.Create();
 
-            if (!string.IsNullOrEmpty(externalCompilationScriptPath)) {
-                if (!File.Exists(externalCompilationScriptPath)) {
-                    System.Console.WriteLine("[!] cannot find {0}", externalCompilationScriptPath);
-                    PrintHelp(p);
-                    return;
-                }
-                System.Console.WriteLine("compiling with script: {0}", externalCompilationScriptPath);
-            }
+			foreach (var inputFile in inputDirectory.EnumerateFiles("*.coffee"))
+			{
+				var outputFile = Path.Combine(outputDirectory.FullName, Regex.Replace(inputFile.Name, inputFile.Extension + "$", ".js", RegexOptions.IgnoreCase));
 
-            System.Console.WriteLine("compiling: {0}",input);
-            System.Console.WriteLine("output: {0}", output);
-            System.Console.WriteLine("workingDirectory: {0}", workingDirectory);
-            System.Console.WriteLine("compression: {0}", compress);
-            System.Console.WriteLine("imports: {0}", require);
-            try
-            {
-                using (var inputStream = new StreamReader(File.OpenRead(input)))
-                {
-                    using(var outputStream = new StreamWriter(File.Open(output, FileMode.Create)))
-                    {
+				if (!string.IsNullOrEmpty(externalCompilationScriptPath))
+				{
+					if (!File.Exists(externalCompilationScriptPath))
+					{
+						System.Console.WriteLine("[!] cannot find {0}", externalCompilationScriptPath);
+						PrintHelp(p);
+						return;
+					}
+					System.Console.WriteLine("compiling with script: {0}", externalCompilationScriptPath);
+				}
 
-                        var compiler = new CoffeeCompiler();
+				System.Console.WriteLine("compiling: {0}", inputFile);
+				System.Console.WriteLine("output: {0}", outputFile);
 
-                        if (!string.IsNullOrEmpty(externalCompilationScriptPath))
-                            compiler.CoffeeCompilerScriptPath = externalCompilationScriptPath;
+				try
+				{
+					using (var inputStream = new StreamReader(inputFile.OpenRead()))
+					{
+						using (var outputStream = new StreamWriter(File.Open(outputFile, FileMode.Create, FileAccess.Write)))
+						{
+							var compiler = new CoffeeCompiler();
 
-                        if(compress)
-                            compiler.PostCompilationActions.Add(Core.Plugins.YahooYuiCompressor.Compress);
+							if (!string.IsNullOrEmpty(externalCompilationScriptPath))
+								compiler.CoffeeCompilerScriptPath = externalCompilationScriptPath;
 
-                        if(!require)
-                            compiler.PreCompilationActions.Clear();
+							if (compress)
+								compiler.PostCompilationActions.Add(Core.Plugins.YahooYuiCompressor.Compress);
 
+							if (!require)
+								compiler.PreCompilationActions.Clear();
 
-                            compiler.Compile(workingDirectory, inputStream, outputStream);
+							compiler.Compile(workingDirectory, inputStream, outputStream);
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					System.Console.WriteLine(ex.Message);
+				}
+			}
+		}
 
-                    }
-                }
+		private static void PrintHelp(OptionSet optionSet)
+		{
+			System.Console.WriteLine(HelpFileResource);
 
-            } catch(Exception ex) {
-                System.Console.WriteLine(ex.Message);
-            }
-            
-        }
+			var sb = new StringBuilder();
+			var sw = new StringWriter(sb);
+			optionSet.WriteOptionDescriptions(sw);
 
-        private static void PrintHelp(OptionSet optionSet)
-        {
-            System.Console.WriteLine(HelpFileResource);
+			System.Console.WriteLine(sb);
 
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            optionSet.WriteOptionDescriptions(sw);
+		}
 
-            System.Console.WriteLine(sb);
-       
-        }
+		private static String HelpFileResource
+		{
+			get
+			{
 
-        private static String HelpFileResource
-        {
-            get
-            {
+				using (var stream = Assembly.GetAssembly(typeof(Program)).GetManifestResourceStream("JurassicCoffee.Console.Help.txt"))
+				{
+					if (stream == null)
+						throw new NullReferenceException();
 
-                using (var stream = Assembly.GetAssembly(typeof(Program)).GetManifestResourceStream("JurassicCoffee.Console.Help.txt"))
-                {
-                    if (stream == null)
-                        throw new NullReferenceException();
+					using (var reader = new StreamReader(stream))
+					{
+						return reader.ReadToEnd();
+					}
+				}
+			}
+		}
 
-                    using (var reader = new StreamReader(stream))
-                    {
-                        return reader.ReadToEnd();
-                    }
-                }
-            }
-        }
-
-    }
+	}
 }

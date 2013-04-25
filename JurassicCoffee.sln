@@ -1,12 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurassicCoffee.Core", "Source\JurassicCoffee.Core\JurassicCoffee.Core.csproj", "{4925B025-1C24-4349-8616-9EB8349F3334}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurassicCoffee.Web", "Source\JurassicCoffee.Web\JurassicCoffee.Web.csproj", "{E432E036-C38D-443E-B150-887DFDB60FDF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurassicCoffee.Console", "Source\JurassicCoffee.Console\JurassicCoffee.Console.csproj", "{BE910B9D-AB99-43D5-A892-68FD55937C02}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{84AB40D8-0C97-481C-90D1-B987D03021A5}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -17,6 +11,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.markdown = README.markdown
 		Nuget\content\web.config.transform = Nuget\content\web.config.transform
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurassicCoffee.Core", "Source\JurassicCoffee.Core\JurassicCoffee.Core.csproj", "{4925B025-1C24-4349-8616-9EB8349F3334}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurassicCoffee.Web", "Source\JurassicCoffee.Web\JurassicCoffee.Web.csproj", "{E432E036-C38D-443E-B150-887DFDB60FDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurassicCoffee.Console", "Source\JurassicCoffee.Console\JurassicCoffee.Console.csproj", "{BE910B9D-AB99-43D5-A892-68FD55937C02}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurassicCoffee.WebForms.Example", "Source\JurassicCoffee.WebForms.Example\JurassicCoffee.WebForms.Example.csproj", "{FD9E9C87-EDC0-422B-97D3-4E322D2D165B}"
 EndProject
