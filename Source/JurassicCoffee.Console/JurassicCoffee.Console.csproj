@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="MonoOptions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,6 +79,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="coffee\common\domain.coffee" />
+    <None Include="coffee\domain\Attractor.coffee" />
+    <None Include="coffee\domain\Bot.coffee" />
+    <None Include="coffee\domain\BotBuilder.coffee" />
+    <None Include="coffee\domain\force\Drag.coffee" />
+    <None Include="coffee\domain\force\EdgeBounce.coffee" />
+    <None Include="coffee\domain\force\EdgeWrap.coffee" />
+    <None Include="coffee\domain\force\Magnet.coffee" />
+    <None Include="coffee\domain\force\Mouse.coffee" />
+    <None Include="coffee\domain\force\Noise.coffee" />
+    <None Include="coffee\domain\force\Spring.coffee" />
+    <None Include="coffee\domain\Rnd.coffee" />
+    <None Include="coffee\domain\Vector.coffee" />
+    <None Include="coffee\flock.coffee" />
+    <None Include="coffee\force-directed-graph.coffee" />
     <None Include="Test\include2.coffee">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -124,6 +140,10 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

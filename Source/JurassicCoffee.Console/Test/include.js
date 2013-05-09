@@ -1,3 +1,4 @@
 ﻿function Foo() {
-    alert('this is from an imported .js file');
+	var name = "charles";
+    alert('this is from an imported .js file: ' + name);
 }
