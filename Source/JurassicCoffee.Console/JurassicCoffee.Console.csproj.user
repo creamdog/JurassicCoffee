@@ -15,7 +15,7 @@
     <StartArguments>"Test" -o "coffee-js"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <StartArguments>"F:\Development\Jurassic Coffee\Source\JurassicCoffee.Console\coffee"</StartArguments>
+    <StartArguments>"Test" -o "coffee-js"</StartArguments>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>

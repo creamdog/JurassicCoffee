@@ -28,10 +28,21 @@ namespace JurassicCoffee.Console
                 { "e|external=", "set .js coffee compilation script", e => externalCompilationScriptPath = e },
                 { "h|?|help","this help text", c => input = string.Empty }
             };
-
 			optionSet.Parse(args);
 
-			var fileExtension = (compress) ? ".min.js" : ".js";
+			if (!string.IsNullOrEmpty(externalCompilationScriptPath))
+			{
+				if (!File.Exists(externalCompilationScriptPath))
+				{
+					System.Console.WriteLine("[!] cannot find {0}", externalCompilationScriptPath);
+					PrintHelp(optionSet);
+					return;
+				}
+				System.Console.WriteLine("compiling with script: {0}", externalCompilationScriptPath);
+			}
+
+			//var fileExtension = (compress) ? ".min.js" : ".js";
+			var fileExtension = ".js";
 
 			if (input.IsDirectory())
 			{
@@ -69,7 +80,6 @@ namespace JurassicCoffee.Console
 		private static void CompileFile(string workingDirectory, bool compress, bool require, string externalCompilationScriptPath, DirectoryInfo outputDirectory, string fileExtension, FileInfo inputFile)
 		{
 			var outputFile = Path.Combine(outputDirectory.FullName, Regex.Replace(inputFile.Name, inputFile.Extension + "$", fileExtension, RegexOptions.IgnoreCase));
-
 			System.Console.WriteLine("coffee: {0}", inputFile);
 			System.Console.WriteLine("output: {0}", outputFile);
 

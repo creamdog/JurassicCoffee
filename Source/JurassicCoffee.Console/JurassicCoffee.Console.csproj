@@ -79,40 +79,31 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="coffee\common\domain.coffee" />
-    <None Include="coffee\domain\Attractor.coffee" />
-    <None Include="coffee\domain\Bot.coffee" />
-    <None Include="coffee\domain\BotBuilder.coffee" />
-    <None Include="coffee\domain\force\Drag.coffee" />
-    <None Include="coffee\domain\force\EdgeBounce.coffee" />
-    <None Include="coffee\domain\force\EdgeWrap.coffee" />
-    <None Include="coffee\domain\force\Magnet.coffee" />
-    <None Include="coffee\domain\force\Mouse.coffee" />
-    <None Include="coffee\domain\force\Noise.coffee" />
-    <None Include="coffee\domain\force\Spring.coffee" />
-    <None Include="coffee\domain\Rnd.coffee" />
-    <None Include="coffee\domain\Vector.coffee" />
-    <None Include="coffee\flock.coffee" />
-    <None Include="coffee\force-directed-graph.coffee" />
-    <None Include="Test\include2.coffee">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Test\domain-required.coffee">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Test\include.coffee">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Test\include2.coffee">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Test\test.coffee">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Test\Test2.coffee">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Test\js\domain.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test\js\include.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Help.txt" />
     <Content Include="app.ico" />
-    <Content Include="Test\include.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
