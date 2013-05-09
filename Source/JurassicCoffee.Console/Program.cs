@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using Jurassic;
 using System.Linq;
 using JurassicCoffee.Core;
-//"F:\Development\Jurassic Coffee\Source\JurassicCoffee.Console\Test\test.coffee"
+
 namespace JurassicCoffee.Console
 {
 	class Program
@@ -41,9 +41,7 @@ namespace JurassicCoffee.Console
 				System.Console.WriteLine("compiling with script: {0}", externalCompilationScriptPath);
 			}
 
-			//var fileExtension = (compress) ? ".min.js" : ".js";
-			var fileExtension = ".js";
-
+			var fileExtension = (compress) ? ".min.js" : ".js";
 			if (input.IsDirectory())
 			{
 				var inputDirectory = new DirectoryInfo(input);
