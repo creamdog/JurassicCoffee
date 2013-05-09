@@ -59,10 +59,15 @@ sayhello 'charles'
 
 #### # require \`file.js\`
 
-embeds desired javascript file
+embeds desired javascript file.
+
+_Important_: The js file path must be enclosed in the special single quote. 
+
+```coffeescript
+#= require `./js/common.min.js`  
+```
 
 *default.coffee*
-
 ```coffeescript
 #= require `./jquery-1.6.1.min.js`
 $(document).ready -> 
