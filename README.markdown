@@ -105,14 +105,14 @@ CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee\hello.coffee"
 ```
 
 #### Compile a Directory of Files
-This example calls the exe specifying the full path of a Directory containing multiple coffee files. Each file will be compiled and compressed with the output placed in the same folder and named '*.min.js'
+This example calls the exe specifying the full path of a Directory containing multiple coffee files. Each file will be compiled and compressed with the output placed in the same folder and named _*.min.js_.
 ```
 CD "$(SolutionDir)Tools\JurassicCoffee"
 CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee -c"
 ```
 
 #### Specify an Output Directory for all Compiled Files
-This example specifies a Directory of coffee files and an Output Directory. Each compiled and compressed file will be placed into the Output Directory and named '*.min.js'
+This example specifies a Directory of coffee files and an Output Directory. Each compiled and compressed file will be placed into the Output Directory and named _*.min.js_.
 ```
 CD "$(SolutionDir)Tools\JurassicCoffee"
 CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee" -c -o "$(ProjectDir)js"
