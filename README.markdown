@@ -98,14 +98,14 @@ Before you start, make sure you have the following information to hand:
 - The path(s) to you coffee files. JurassicCoffee allows you to specify either directories or individual files. 
 
 #### Compile a Single File
-The Build Event below first changes directory (CD) to the location of the JurassicCoffee.Console.exe. It then calls the exe specifying the full path of the coffee to be compiled. The output will be file in the same folder named 'hello.js' (uncompressed javascript).
+The Build Event below first changes directory (CD) to the location of the JurassicCoffee.Console.exe. It then calls the exe specifying the full path of the coffee file to be compiled. The compiled output will be uncompressed javascript placed in the same folder and named _hello.js_.
 ```
 CD "$(SolutionDir)Tools\JurassicCoffee"
 CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee\hello.coffee"
 ```
 
 #### Compile a Directory of Files
-This example calls the exe specifying the full path of a Directory containing multiple coffee files. Each file will be compiled and compressed in turn with the output placed in the same folder and named '*.min.js'
+This example calls the exe specifying the full path of a Directory containing multiple coffee files. Each file will be compiled and compressed with the output placed in the same folder and named '*.min.js'
 ```
 CD "$(SolutionDir)Tools\JurassicCoffee"
 CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee -c"
