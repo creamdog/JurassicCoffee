@@ -98,24 +98,24 @@ Before you start, make sure you have the following information to hand:
 - The path(s) to you coffee files. JurassicCoffee allows you to specify either directories or individual files. 
 
 #### Compile a Single File
-The Build Event below first changes directory (CD) to the location of the JurassicCoffee.Console.exe. It then calls the exe specifying the full path of the coffee to be compiled. The output will be file in the same folder named 'hello.min.js'
+The Build Event below first changes directory (CD) to the location of the JurassicCoffee.Console.exe. It then calls the exe specifying the full path of the coffee to be compiled. The output will be file in the same folder named 'hello.js' (uncompressed javascript).
 ```
 CD "$(SolutionDir)Tools\JurassicCoffee"
 CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee\hello.coffee"
 ```
 
 #### Compile a Directory of Files
-This example calls the exe specifying the full path of a Directory containing multiple coffee files. Each file will be compiled in turn with the output placed in the same folder and named '*.min.js'
+This example calls the exe specifying the full path of a Directory containing multiple coffee files. Each file will be compiled and compressed in turn with the output placed in the same folder and named '*.min.js'
 ```
 CD "$(SolutionDir)Tools\JurassicCoffee"
-CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee"
+CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee -c"
 ```
 
 #### Specify an Output Directory for all Compiled Files
-This example specifies a Directory of coffee files and an Output Directory. Each compiled file will be placed into the Output Directory and named '*.min.js'
+This example specifies a Directory of coffee files and an Output Directory. Each compiled and compressed file will be placed into the Output Directory and named '*.min.js'
 ```
 CD "$(SolutionDir)Tools\JurassicCoffee"
-CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee" -o "$(ProjectDir)js"
+CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee" -c -o "$(ProjectDir)js"
 ```
 
 ### command line tool
