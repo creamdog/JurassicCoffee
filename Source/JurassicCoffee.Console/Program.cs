@@ -16,7 +16,7 @@ namespace JurassicCoffee.Console
 			var input = args.FirstOrDefault();
 			var output = string.Empty;
 			var workingDirectory = string.Empty;
-			var compress = true;
+			var compress = false;
 			var require = true;
 			var externalCompilationScriptPath = string.Empty;
 
