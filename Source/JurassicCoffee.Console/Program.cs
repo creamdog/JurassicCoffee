@@ -20,7 +20,7 @@ namespace JurassicCoffee.Console
 			var require = true;
 			var externalCompilationScriptPath = string.Empty;
 
-			var p = new OptionSet {
+			var optionSet = new OptionSet {
                 { "o|output=", "set output file", f => output = f },
                 { "w|workingdir=", "set working directory", w => workingDirectory = w },
                 { "c|compression","enable compression", c => compress = true },
@@ -28,70 +28,83 @@ namespace JurassicCoffee.Console
                 { "e|external=", "set .js coffee compilation script", e => externalCompilationScriptPath = e },
                 { "h|?|help","this help text", c => input = string.Empty }
             };
+			optionSet.Parse(args);
 
-			p.Parse(args);
-
-			if (string.IsNullOrEmpty(input) || !Directory.Exists(input))
+			if (!string.IsNullOrEmpty(externalCompilationScriptPath))
 			{
-				System.Console.WriteLine("[!] cannot find {0}", input);
-				PrintHelp(p);
-				return;
+				if (!File.Exists(externalCompilationScriptPath))
+				{
+					System.Console.WriteLine("[!] cannot find {0}", externalCompilationScriptPath);
+					PrintHelp(optionSet);
+					return;
+				}
+				System.Console.WriteLine("compiling with script: {0}", externalCompilationScriptPath);
 			}
 
-			System.Console.WriteLine("workingDirectory: {0}", workingDirectory);
-			System.Console.WriteLine("compression: {0}", compress);
-			System.Console.WriteLine("imports: {0}", require);
-
-			var inputDirectory = new DirectoryInfo(input);
-			var outputDirectory = (string.IsNullOrEmpty(output))? inputDirectory: new DirectoryInfo(output);
-			workingDirectory = string.IsNullOrEmpty(workingDirectory) ? inputDirectory.FullName : workingDirectory;
-
-			if (!outputDirectory.Exists)
-				outputDirectory.Create();
-
-			foreach (var inputFile in inputDirectory.EnumerateFiles("*.coffee"))
+			var fileExtension = (compress) ? ".min.js" : ".js";
+			if (input.IsDirectory())
 			{
-				var outputFile = Path.Combine(outputDirectory.FullName, Regex.Replace(inputFile.Name, inputFile.Extension + "$", ".js", RegexOptions.IgnoreCase));
-
-				if (!string.IsNullOrEmpty(externalCompilationScriptPath))
+				var inputDirectory = new DirectoryInfo(input);
+				var outputDirectory = GetOutputDirectory(output, ref workingDirectory, inputDirectory);
+				foreach (var inputFile in inputDirectory.EnumerateFiles("*.coffee"))
 				{
-					if (!File.Exists(externalCompilationScriptPath))
+					CompileFile(workingDirectory, compress, require, externalCompilationScriptPath, outputDirectory, fileExtension, inputFile);
+				}
+			}
+			else if (input.IsFile())
+			{
+				var inputFile = new FileInfo(input);
+				var inputDirectory = new DirectoryInfo(Path.GetDirectoryName(input));
+				var outputDirectory = GetOutputDirectory(output, ref workingDirectory, inputDirectory);
+				CompileFile(workingDirectory, compress, require, externalCompilationScriptPath, outputDirectory, fileExtension, inputFile);
+			}
+			else
+			{
+				System.Console.WriteLine("[!] cannot find {0}", input);
+				PrintHelp(optionSet);
+				return;
+			}
+			System.Console.WriteLine("-----------------------");
+		}
+
+		private static DirectoryInfo GetOutputDirectory(string output, ref string workingDirectory, DirectoryInfo inputDirectory)
+		{
+			var outputDirectory = string.IsNullOrEmpty(output) ? inputDirectory : new DirectoryInfo(output);
+			if (!outputDirectory.Exists) outputDirectory.Create();
+			workingDirectory = string.IsNullOrEmpty(workingDirectory) ? inputDirectory.FullName : workingDirectory;
+			return outputDirectory;
+		}
+
+		private static void CompileFile(string workingDirectory, bool compress, bool require, string externalCompilationScriptPath, DirectoryInfo outputDirectory, string fileExtension, FileInfo inputFile)
+		{
+			var outputFile = Path.Combine(outputDirectory.FullName, Regex.Replace(inputFile.Name, inputFile.Extension + "$", fileExtension, RegexOptions.IgnoreCase));
+			System.Console.WriteLine("coffee: {0}", inputFile);
+			System.Console.WriteLine("output: {0}", outputFile);
+
+			try
+			{
+				using (var inputStream = new StreamReader(inputFile.OpenRead()))
+				{
+					using (var outputStream = new StreamWriter(File.Open(outputFile, FileMode.Create, FileAccess.Write)))
 					{
-						System.Console.WriteLine("[!] cannot find {0}", externalCompilationScriptPath);
-						PrintHelp(p);
-						return;
-					}
-					System.Console.WriteLine("compiling with script: {0}", externalCompilationScriptPath);
-				}
+						var compiler = new CoffeeCompiler();
 
-				System.Console.WriteLine("compiling: {0}", inputFile);
-				System.Console.WriteLine("output: {0}", outputFile);
+						if (!string.IsNullOrEmpty(externalCompilationScriptPath))
+							compiler.CoffeeCompilerScriptPath = externalCompilationScriptPath;
 
-				try
-				{
-					using (var inputStream = new StreamReader(inputFile.OpenRead()))
-					{
-						using (var outputStream = new StreamWriter(File.Open(outputFile, FileMode.Create, FileAccess.Write)))
-						{
-							var compiler = new CoffeeCompiler();
+						if (compress)
+							compiler.PostCompilationActions.Add(Core.Plugins.YahooYuiCompressor.Compress);
 
-							if (!string.IsNullOrEmpty(externalCompilationScriptPath))
-								compiler.CoffeeCompilerScriptPath = externalCompilationScriptPath;
+						if (!require)
+							compiler.PreCompilationActions.Clear();
 
-							if (compress)
-								compiler.PostCompilationActions.Add(Core.Plugins.YahooYuiCompressor.Compress);
-
-							if (!require)
-								compiler.PreCompilationActions.Clear();
-
-							compiler.Compile(workingDirectory, inputStream, outputStream);
-						}
+						compiler.Compile(workingDirectory, inputStream, outputStream);
 					}
 				}
-				catch (Exception ex)
-				{
-					System.Console.WriteLine(ex.Message);
-				}
+			}
+			catch (Exception ex)
+			{
+				System.Console.WriteLine(ex.Message);
 			}
 		}
 
@@ -111,7 +124,6 @@ namespace JurassicCoffee.Console
 		{
 			get
 			{
-
 				using (var stream = Assembly.GetAssembly(typeof(Program)).GetManifestResourceStream("JurassicCoffee.Console.Help.txt"))
 				{
 					if (stream == null)

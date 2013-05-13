@@ -59,10 +59,15 @@ sayhello 'charles'
 
 #### # require \`file.js\`
 
-embeds desired javascript file
+embeds desired javascript file.
+
+_Important_: The js file path must be enclosed in the special single quote. 
+
+```coffeescript
+#= require `./js/common.min.js`  
+```
 
 *default.coffee*
-
 ```coffeescript
 #= require `./jquery-1.6.1.min.js`
 $(document).ready -> 
@@ -83,6 +88,35 @@ _additional require statements in files loaded in this manner will not be evalua
 ```
 
 ## Usage
+
+### Visual Studio Build Events
+You can add a coffeescript compilation step to any Visual Studio project, including the free Visual Studio Express edition, via simple Build Events.
+
+Before you start, make sure you have the following information to hand:
+
+- The path to the JurassicCoffee.Console.exe (this will probably be inside you solution or in a nuget folder)
+- The path(s) to you coffee files. JurassicCoffee allows you to specify either directories or individual files. 
+
+#### Compile a Single File
+The Build Event below first changes directory (CD) to the location of the JurassicCoffee.Console.exe. It then calls the exe specifying the full path of the coffee file to be compiled. The compiled output will be an uncompressed javascript file placed in the same folder and named _hello.js_.
+```
+CD "$(SolutionDir)Tools\JurassicCoffee"
+CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee\hello.coffee"
+```
+
+#### Compile a Directory of Files
+This example calls the exe specifying the full path of a Directory containing multiple coffee files. Each file will be compiled and compressed with the output placed in the same folder and named _*.min.js_.
+```
+CD "$(SolutionDir)Tools\JurassicCoffee"
+CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee -c"
+```
+
+#### Specify an Output Directory for all Compiled Files
+This example specifies a Directory of coffee files and an Output Directory. Each compiled and compressed file will be placed into the Output Directory and named _*.min.js_.
+```
+CD "$(SolutionDir)Tools\JurassicCoffee"
+CALL JurassicCoffee.Console.exe "$(ProjectDir)coffee" -c -o "$(ProjectDir)js"
+```
 
 ### command line tool
 ```
