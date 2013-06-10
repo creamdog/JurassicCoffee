@@ -25,3 +25,10 @@ target package:
     .Include("*.dll")
     .ForEach def(file):
       file.CopyToDirectory("Nuget/Lib/net40/")
+  with FileList("build/console/"):
+    .Include("*.exe")
+    .ForEach def(file):
+      file.CopyToDirectory("Nuget/Lib/net40/")
+
+target nuget:
+  exec("./Dependencies/Nuget/NuGet.exe", "pack ./Nuget/Package.nuspec -OutputDirectory ./Nuget/")
